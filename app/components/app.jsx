@@ -476,7 +476,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
         <div className="hero profile-hero" style={{padding: "40px 0 24px", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 24}}>
           <div>
             <div className="eyebrow mb-16">Your profile</div>
-            <h1 className="h-1" style={{fontSize: 44, margin: 0}}>{profile.name}</h1>
+            <h1 className="h-1" style={{fontSize: 44}}>{profile.name}</h1>
             <p className="muted" style={{fontSize: 15, maxWidth: 540, marginTop: 8}}>
               <Badge variant="soft" color="info" size="sm" style={{marginRight: 8}}>
                 {D.FIELDS.find(f => f.id === profile.field)?.name || "—"}
