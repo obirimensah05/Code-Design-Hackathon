@@ -57,18 +57,19 @@ function toolLogoUrl(slug, hex) {
 }
 function ToolMark({ tool, size, className = '', style }) {
   const url = tool ? toolLogoUrl(tool.slug, tool.color) : null;
-  const sizeStyle = size ? { width: size, height: size, fontSize: Math.max(10, Math.round(size * 0.4)), borderRadius: Math.max(6, Math.round(size * 0.22)) } : null;
+  const sizeStyle = size ? { width: size, height: size, borderRadius: Math.max(6, Math.round(size * 0.22)) } : null;
+  // No letter placeholder. If the tool has no logo slug, render a
+  // solid tile tinted with the brand color. If it has a slug, the
+  // SVG is the whole content.
+  const tintStyle = !url && tool?.color ? { background: tool.color } : null;
   return (
     <span
-      className={`tool-mark ${className}`}
-      style={{ ...sizeStyle, ...style }}
+      className={`tool-mark ${url ? 'tool-mark--logo' : 'tool-mark--tint'} ${className}`}
+      style={{ ...sizeStyle, ...tintStyle, ...style }}
       data-slug={tool?.slug || undefined}
+      aria-label={tool?.name || undefined}
     >
-      {url
-        ? <img className="tool-mark-img" src={url} alt="" loading="lazy" decoding="async" />
-        : null
-      }
-      <span className="tool-mark-fallback">{tool?.mark || ''}</span>
+      {url && <img className="tool-mark-img" src={url} alt="" loading="lazy" decoding="async" />}
     </span>
   );
 }
