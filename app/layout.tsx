@@ -19,8 +19,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://picsum.photos" />
         <link rel="preconnect" href="https://fastly.picsum.photos" />
         <link rel="preconnect" href="https://api.dicebear.com" />
+        <link rel="preconnect" href="https://cdn.simpleicons.org" />
         <link rel="dns-prefetch" href="https://picsum.photos" />
         <link rel="dns-prefetch" href="https://api.dicebear.com" />
+        <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"

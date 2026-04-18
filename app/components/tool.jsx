@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { PV_DATA } from './data';
-import { Icon, VideoCard } from './atoms';
+import { Icon, VideoCard, ToolMark } from './atoms';
 
 const { useState: useStateT, useMemo: useMemoT } = React;
 
@@ -25,7 +25,7 @@ function ToolDetail({ toolId, onWatch, goto }) {
 
         <div className="tool-hero">
           <div>
-            <div className="tool-mark-lg">{tool.mark}</div>
+            <ToolMark tool={tool} className="tool-mark-lg" />
             <div className="eyebrow mb-8">{tool.cat} · By {tool.maker}</div>
             <h1>{tool.name}</h1>
             <p className="muted" style={{fontSize: 17, maxWidth: 540, margin: "0 0 24px", lineHeight: 1.5}}>{tool.desc}</p>

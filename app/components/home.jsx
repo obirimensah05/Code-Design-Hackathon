@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { PV_DATA } from './data';
-import { Icon, VideoCard, Verified, Avatar, thumbUrl } from './atoms';
+import { Icon, VideoCard, Verified, Avatar, ToolMark, thumbUrl } from './atoms';
 import { Reveal, Stagger, CountUp, Ring, ProgressBar } from './motion-fx';
 
 const { useState: useStateH, useMemo: useMemoH, useEffect: useEffectH, useRef: useRefH } = React;
@@ -114,7 +114,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
 
           <Reveal className="path-card" y={16} delay={0.1}>
             <div className="path-head">
-              <div className="tool-mark">CG</div>
+              <ToolMark tool={D.tool('chatgpt')} />
               <div>
                 <div style={{fontSize: 13.5, fontWeight: 600}}>Your active path</div>
                 <div className="dim mono" style={{fontSize: 11.5}}>ChatGPT for {fieldName}</div>
@@ -146,7 +146,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
           <Stagger className="tool-grid" stagger={0.05} y={18}>
             {recommended.map(t => (
               <div key={t.id} className="tool-tile" onClick={() => goto("tool", { toolId: t.id })}>
-                <div className="tool-mark">{t.mark}</div>
+                <ToolMark tool={t} />
                 <div className="tool-cat">{t.cat}</div>
                 <div className="tool-name">{t.name}</div>
                 <div className="dim" style={{fontSize: 12, marginBottom: 14, lineHeight: 1.4}}>{t.desc}</div>
@@ -383,7 +383,7 @@ function HomeLibrary({ profile, goto, onWatch, points, gamification }) {
                     <div className="book-stats mono">{t.videos}</div>
                   </div>
                   <div className="book-preview">
-                    <div className="tool-mark">{t.mark}</div>
+                    <ToolMark tool={t} />
                     <div style={{fontWeight: 600, fontSize: 14, marginTop: 8}}>{t.name}</div>
                     <div className="dim mono" style={{fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em"}}>{t.cat}</div>
                     <div style={{fontSize: 12, color: "var(--fg-2)", marginTop: 8, lineHeight: 1.4}}>{t.desc}</div>
@@ -435,7 +435,7 @@ function HomePath({ profile, goto, onWatch, points, gamification }) {
           <div className="path-today">
             <div className="eyebrow mb-16">◉ Today's lesson · {new Date().toLocaleDateString("en-US", {weekday: "long"})}</div>
             <div className="flex gap-12 items-center mb-16">
-              <div className="tool-mark-lg" style={{width: 56, height: 56, fontSize: 16, borderRadius: 14}}>{todayTool.mark}</div>
+              <ToolMark tool={todayTool} size={56} className="tool-mark-lg" />
               <div>
                 <div className="dim mono" style={{fontSize: 11.5, textTransform: "uppercase", letterSpacing: "0.06em"}}>
                   {todayTool.name} · {today.level} · {today.duration}
@@ -526,13 +526,13 @@ function HomePath({ profile, goto, onWatch, points, gamification }) {
           </div>
           <div className="path-timeline">
             {[
-              { d: "Tomorrow", t: "Claude for long-doc analysis", mins: 9, tool: "CL" },
-              { d: "Wednesday", t: "Prompt patterns that scale", mins: 7, tool: "GP" },
-              { d: "Thursday", t: "Connecting AI to your stack", mins: 12, tool: "NA" },
+              { d: "Tomorrow",  t: "Claude for long-doc analysis", mins: 9,  toolId: "claude" },
+              { d: "Wednesday", t: "Prompt patterns that scale",   mins: 7,  toolId: "chatgpt" },
+              { d: "Thursday",  t: "Connecting AI to your stack",  mins: 12, toolId: "notion_ai" },
             ].map((d, i) => (
               <div key={i} className="path-day">
                 <div className="path-day-meta mono">{d.d}</div>
-                <div className="tool-mark" style={{marginBottom: 12}}>{d.tool}</div>
+                <ToolMark tool={D.tool(d.toolId)} style={{marginBottom: 12}} />
                 <div style={{fontWeight: 600, fontSize: 14.5, marginBottom: 6}}>{d.t}</div>
                 <div className="dim mono" style={{fontSize: 11.5}}>{d.mins} min · +10 pts</div>
               </div>

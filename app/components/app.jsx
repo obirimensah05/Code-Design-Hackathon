@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { PV_DATA } from './data';
-import { Icon, VideoCard, ToastStack, TopNav, Avatar } from './atoms';
+import { Icon, VideoCard, ToastStack, TopNav, Avatar, ToolMark } from './atoms';
 import { Onboarding } from './onboarding';
 import { Home } from './home';
 import { Browse } from './browse';
@@ -523,7 +523,7 @@ function Learning({ profile, goto, watched }) {
         <div className="row-gap-12 mb-24">
           {rec.map((t, i) => (
             <div key={t.id} className="card" style={{padding: 20, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 20, alignItems: "center"}}>
-              <div className="tool-mark" style={{width: 48, height: 48, fontSize: 14, borderRadius: 12}}>{t.mark}</div>
+              <ToolMark tool={t} size={48} />
               <div>
                 <div style={{fontWeight: 600, fontSize: 15.5, marginBottom: 4}}>{t.name} <span className="dim mono" style={{fontSize: 11.5, marginLeft: 6, textTransform: "uppercase", letterSpacing: 0.06 + "em"}}>{["Beginner","Intermediate","Advanced","Beginner"][i]}</span></div>
                 <div className="progress-bar" style={{maxWidth: 480, marginTop: 8}}><span style={{width: `${[100,62,38,14][i]}%`}}/></div>
@@ -669,7 +669,7 @@ function MobileView({ profile, route, routeParams, goto, onWatch, points, simWat
         <div style={{display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 16, marginInline: -16, paddingInline: 16}}>
           {D.TOOLS.slice(0, 6).map(t => (
             <div key={t.id} className="tool-tile" style={{minWidth: 140, padding: 12}} onClick={() => goto("tool", { toolId: t.id })}>
-              <div className="tool-mark" style={{width: 28, height: 28, fontSize: 11, marginBottom: 8}}>{t.mark}</div>
+              <ToolMark tool={t} size={28} style={{marginBottom: 8}} />
               <div className="tool-name" style={{fontSize: 13}}>{t.name}</div>
               <div className="dim mono" style={{fontSize: 10}}>{t.cat}</div>
             </div>

@@ -3,32 +3,36 @@
 /* global window */
 // All data + helpers. Exposes globals via window.
 
+// `slug` is the Simple Icons slug used to build a CDN logo URL
+// (https://cdn.simpleicons.org/<slug>). If missing, the letter mark
+// shows instead. Logos render monochrome by default and get tinted
+// via the tool's brand `color`.
 const TOOLS = [
-  { id: "chatgpt", name: "ChatGPT", cat: "LLM", maker: "OpenAI", mark: "GP", videos: 142, learners: 8420, color: "#10A37F", desc: "Conversational AI for writing, analysis, coding & research." },
-  { id: "claude", name: "Claude", cat: "LLM", maker: "Anthropic", mark: "CL", videos: 96, learners: 5612, color: "#D97757", desc: "Long-context reasoning, coding, and document analysis." },
-  { id: "gemini", name: "Gemini", cat: "LLM", maker: "Google", mark: "GM", videos: 71, learners: 3980, color: "#4285F4", desc: "Multimodal AI integrated with Google Workspace." },
-  { id: "perplexity", name: "Perplexity", cat: "LLM", maker: "Perplexity", mark: "PX", videos: 54, learners: 2901, color: "#20B8CD", desc: "AI answer engine with cited sources." },
-  { id: "midjourney", name: "Midjourney", cat: "Image", maker: "Midjourney", mark: "MJ", videos: 188, learners: 11250, color: "#000000", desc: "Aesthetic image generation via Discord & web." },
-  { id: "dalle", name: "DALL·E 3", cat: "Image", maker: "OpenAI", mark: "DE", videos: 62, learners: 4120, color: "#7A4FCC", desc: "Prompt-driven photorealistic image generation." },
-  { id: "firefly", name: "Adobe Firefly", cat: "Image", maker: "Adobe", mark: "FF", videos: 44, learners: 2104, color: "#D8004A", desc: "Commercial-safe image gen integrated with Creative Cloud." },
-  { id: "stablediffusion", name: "Stable Diffusion", cat: "Image", maker: "Stability", mark: "SD", videos: 89, learners: 3640, color: "#7B1FA2", desc: "Open-source image diffusion you can run locally." },
-  { id: "cursor", name: "Cursor", cat: "Code", maker: "Anysphere", mark: "CR", videos: 121, learners: 7130, color: "#000000", desc: "AI-first IDE for fast, agentic codebase editing." },
-  { id: "copilot", name: "GitHub Copilot", cat: "Code", maker: "GitHub", mark: "GH", videos: 98, learners: 6810, color: "#171515", desc: "AI pair programmer in your editor & terminal." },
-  { id: "replit", name: "Replit AI", cat: "Code", maker: "Replit", mark: "RP", videos: 41, learners: 1820, color: "#F26207", desc: "AI assist + agent in the Replit cloud IDE." },
-  { id: "v0", name: "v0", cat: "Code", maker: "Vercel", mark: "V0", videos: 36, learners: 2210, color: "#000000", desc: "Generate React + Tailwind UI from prompts." },
-  { id: "figma_ai", name: "Figma AI", cat: "Design", maker: "Figma", mark: "FG", videos: 28, learners: 1560, color: "#F24E1E", desc: "Make features, image edits, autoname & rewrite." },
-  { id: "framer", name: "Framer AI", cat: "Design", maker: "Framer", mark: "FR", videos: 19, learners: 980, color: "#0055FF", desc: "Generate full sites with AI on Framer canvas." },
-  { id: "synthesia", name: "Synthesia", cat: "Video", maker: "Synthesia", mark: "SY", videos: 33, learners: 1840, color: "#FF4F40", desc: "Generate avatar videos in 140+ languages." },
-  { id: "runway", name: "Runway", cat: "Video", maker: "Runway", mark: "RW", videos: 47, learners: 2360, color: "#000000", desc: "Gen-3 text-to-video, video-to-video, motion brush." },
-  { id: "descript", name: "Descript", cat: "Video", maker: "Descript", mark: "DS", videos: 25, learners: 1410, color: "#1E88E5", desc: "Edit video & audio by editing text." },
-  { id: "elevenlabs", name: "ElevenLabs", cat: "Audio", maker: "ElevenLabs", mark: "EL", videos: 38, learners: 2110, color: "#000000", desc: "Voice cloning, dubbing, and TTS." },
-  { id: "udio", name: "Udio", cat: "Audio", maker: "Udio", mark: "UD", videos: 17, learners: 740, color: "#1E1E1E", desc: "Generate songs from text prompts." },
-  { id: "notion_ai", name: "Notion AI", cat: "Productivity", maker: "Notion", mark: "NA", videos: 52, learners: 3290, color: "#000000", desc: "AI inside your Notion workspace." },
-  { id: "jasper", name: "Jasper", cat: "Marketing", maker: "Jasper", mark: "JA", videos: 31, learners: 1620, color: "#11A37F", desc: "Brand-consistent marketing copy at scale." },
-  { id: "copyai", name: "Copy.ai", cat: "Marketing", maker: "Copy.ai", mark: "CA", videos: 22, learners: 1080, color: "#0077FF", desc: "GTM workflows powered by AI." },
-  { id: "huggingface", name: "Hugging Face", cat: "ML", maker: "Hugging Face", mark: "HF", videos: 44, learners: 2410, color: "#FFD21E", desc: "Open-source ML models, datasets & spaces." },
-  { id: "llama", name: "Llama", cat: "LLM", maker: "Meta", mark: "LM", videos: 28, learners: 1320, color: "#0866FF", desc: "Open-weight LLMs you can self-host." },
-  { id: "mistral", name: "Mistral", cat: "LLM", maker: "Mistral AI", mark: "MS", videos: 19, learners: 940, color: "#FA520F", desc: "Efficient European open-weight models." },
+  { id: "chatgpt", name: "ChatGPT", cat: "LLM", maker: "OpenAI", mark: "GP", slug: "openai", videos: 142, learners: 8420, color: "#10A37F", desc: "Conversational AI for writing, analysis, coding & research." },
+  { id: "claude", name: "Claude", cat: "LLM", maker: "Anthropic", mark: "CL", slug: "anthropic", videos: 96, learners: 5612, color: "#D97757", desc: "Long-context reasoning, coding, and document analysis." },
+  { id: "gemini", name: "Gemini", cat: "LLM", maker: "Google", mark: "GM", slug: "googlegemini", videos: 71, learners: 3980, color: "#4285F4", desc: "Multimodal AI integrated with Google Workspace." },
+  { id: "perplexity", name: "Perplexity", cat: "LLM", maker: "Perplexity", mark: "PX", slug: "perplexity", videos: 54, learners: 2901, color: "#20B8CD", desc: "AI answer engine with cited sources." },
+  { id: "midjourney", name: "Midjourney", cat: "Image", maker: "Midjourney", mark: "MJ", slug: "midjourney", videos: 188, learners: 11250, color: "#000000", desc: "Aesthetic image generation via Discord & web." },
+  { id: "dalle", name: "DALL·E 3", cat: "Image", maker: "OpenAI", mark: "DE", slug: "openai", videos: 62, learners: 4120, color: "#7A4FCC", desc: "Prompt-driven photorealistic image generation." },
+  { id: "firefly", name: "Adobe Firefly", cat: "Image", maker: "Adobe", mark: "FF", slug: "adobe", videos: 44, learners: 2104, color: "#D8004A", desc: "Commercial-safe image gen integrated with Creative Cloud." },
+  { id: "stablediffusion", name: "Stable Diffusion", cat: "Image", maker: "Stability", mark: "SD", slug: "stablediffusion", videos: 89, learners: 3640, color: "#7B1FA2", desc: "Open-source image diffusion you can run locally." },
+  { id: "cursor", name: "Cursor", cat: "Code", maker: "Anysphere", mark: "CR", slug: "cursor", videos: 121, learners: 7130, color: "#000000", desc: "AI-first IDE for fast, agentic codebase editing." },
+  { id: "copilot", name: "GitHub Copilot", cat: "Code", maker: "GitHub", mark: "GH", slug: "githubcopilot", videos: 98, learners: 6810, color: "#171515", desc: "AI pair programmer in your editor & terminal." },
+  { id: "replit", name: "Replit AI", cat: "Code", maker: "Replit", mark: "RP", slug: "replit", videos: 41, learners: 1820, color: "#F26207", desc: "AI assist + agent in the Replit cloud IDE." },
+  { id: "v0", name: "v0", cat: "Code", maker: "Vercel", mark: "V0", slug: "vercel", videos: 36, learners: 2210, color: "#000000", desc: "Generate React + Tailwind UI from prompts." },
+  { id: "figma_ai", name: "Figma AI", cat: "Design", maker: "Figma", mark: "FG", slug: "figma", videos: 28, learners: 1560, color: "#F24E1E", desc: "Make features, image edits, autoname & rewrite." },
+  { id: "framer", name: "Framer AI", cat: "Design", maker: "Framer", mark: "FR", slug: "framer", videos: 19, learners: 980, color: "#0055FF", desc: "Generate full sites with AI on Framer canvas." },
+  { id: "synthesia", name: "Synthesia", cat: "Video", maker: "Synthesia", mark: "SY", slug: "synthesia", videos: 33, learners: 1840, color: "#FF4F40", desc: "Generate avatar videos in 140+ languages." },
+  { id: "runway", name: "Runway", cat: "Video", maker: "Runway", mark: "RW", slug: "", videos: 47, learners: 2360, color: "#000000", desc: "Gen-3 text-to-video, video-to-video, motion brush." },
+  { id: "descript", name: "Descript", cat: "Video", maker: "Descript", mark: "DS", slug: "descript", videos: 25, learners: 1410, color: "#1E88E5", desc: "Edit video & audio by editing text." },
+  { id: "elevenlabs", name: "ElevenLabs", cat: "Audio", maker: "ElevenLabs", mark: "EL", slug: "elevenlabs", videos: 38, learners: 2110, color: "#000000", desc: "Voice cloning, dubbing, and TTS." },
+  { id: "udio", name: "Udio", cat: "Audio", maker: "Udio", mark: "UD", slug: "", videos: 17, learners: 740, color: "#1E1E1E", desc: "Generate songs from text prompts." },
+  { id: "notion_ai", name: "Notion AI", cat: "Productivity", maker: "Notion", mark: "NA", slug: "notion", videos: 52, learners: 3290, color: "#000000", desc: "AI inside your Notion workspace." },
+  { id: "jasper", name: "Jasper", cat: "Marketing", maker: "Jasper", mark: "JA", slug: "", videos: 31, learners: 1620, color: "#11A37F", desc: "Brand-consistent marketing copy at scale." },
+  { id: "copyai", name: "Copy.ai", cat: "Marketing", maker: "Copy.ai", mark: "CA", slug: "", videos: 22, learners: 1080, color: "#0077FF", desc: "GTM workflows powered by AI." },
+  { id: "huggingface", name: "Hugging Face", cat: "ML", maker: "Hugging Face", mark: "HF", slug: "huggingface", videos: 44, learners: 2410, color: "#FFD21E", desc: "Open-source ML models, datasets & spaces." },
+  { id: "llama", name: "Llama", cat: "LLM", maker: "Meta", mark: "LM", slug: "ollama", videos: 28, learners: 1320, color: "#0866FF", desc: "Open-weight LLMs you can self-host." },
+  { id: "mistral", name: "Mistral", cat: "LLM", maker: "Mistral AI", mark: "MS", slug: "mistralai", videos: 19, learners: 940, color: "#FA520F", desc: "Efficient European open-weight models." },
 ];
 
 const FIELDS = [

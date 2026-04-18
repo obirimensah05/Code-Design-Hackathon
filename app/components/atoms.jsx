@@ -47,6 +47,32 @@ const Icon = {
   bolt: (p) => <svg width={p?.size||14} height={p?.size||14} viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10"/></svg>,
 };
 
+// --- Tool logo mark (Simple Icons CDN, falls back to letter initials) ---
+function toolLogoUrl(slug, hex) {
+  if (!slug) return null;
+  const color = hex && hex.startsWith('#') ? hex.slice(1) : hex;
+  return color
+    ? `https://cdn.simpleicons.org/${slug}/${color}`
+    : `https://cdn.simpleicons.org/${slug}`;
+}
+function ToolMark({ tool, size, className = '', style }) {
+  const url = tool ? toolLogoUrl(tool.slug, tool.color) : null;
+  const sizeStyle = size ? { width: size, height: size, fontSize: Math.max(10, Math.round(size * 0.4)), borderRadius: Math.max(6, Math.round(size * 0.22)) } : null;
+  return (
+    <span
+      className={`tool-mark ${className}`}
+      style={{ ...sizeStyle, ...style }}
+      data-slug={tool?.slug || undefined}
+    >
+      {url
+        ? <img className="tool-mark-img" src={url} alt="" loading="lazy" decoding="async" />
+        : null
+      }
+      <span className="tool-mark-fallback">{tool?.mark || ''}</span>
+    </span>
+  );
+}
+
 // --- Thumbnail (seeded image from Picsum, fallback to label) ---
 function thumbUrl(seed, w = 640, h = 360) {
   return `https://picsum.photos/seed/pu-${encodeURIComponent(seed)}/${w}/${h}`;
@@ -221,4 +247,4 @@ function StarRater({ value, onChange, size = 22 }) {
 }
 
 
-export { PVLogo, Verified, Icon, Thumb, VideoCard, ToastStack, TopNav, StarRater, Avatar, thumbUrl, avatarUrl };
+export { PVLogo, Verified, Icon, Thumb, VideoCard, ToastStack, TopNav, StarRater, Avatar, ToolMark, thumbUrl, avatarUrl, toolLogoUrl };
