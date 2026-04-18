@@ -47,14 +47,33 @@ const Icon = {
   bolt: (p) => <svg width={p?.size||14} height={p?.size||14} viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10"/></svg>,
 };
 
-// --- Striped thumbnail ---
-function Thumb({ label, duration }) {
+// --- Thumbnail (seeded image from Picsum, fallback to label) ---
+function thumbUrl(seed, w = 640, h = 360) {
+  return `https://picsum.photos/seed/pu-${encodeURIComponent(seed)}/${w}/${h}`;
+}
+function Thumb({ label, duration, seed }) {
+  const key = seed ?? label ?? 'default';
   return (
     <div className="thumb">
+      <img className="thumb-img" src={thumbUrl(key)} alt="" loading="lazy" decoding="async" />
       <div className="thumb-label">{label}</div>
       {duration && <div className="duration">{duration}</div>}
       <div className="play"><div className="play-circle"><Icon.play size={14} /></div></div>
     </div>
+  );
+}
+
+// --- Avatar (DiceBear beam, color-matched to brand; initials fallback) ---
+function avatarUrl(name, size = 64) {
+  const seed = encodeURIComponent((name || '').trim() || 'anon');
+  return `https://api.dicebear.com/7.x/shapes/svg?seed=${seed}&size=${size}&backgroundColor=8A1ED4,B26BFF,F2E7FB&backgroundType=solid`;
+}
+function Avatar({ name, initials, size = 32, className = '' }) {
+  return (
+    <span className={`ca-img ${className}`} style={{ width: size, height: size }} aria-hidden>
+      <img src={avatarUrl(name, size)} alt="" loading="lazy" decoding="async" />
+      <span className="ca-fallback">{initials}</span>
+    </span>
   );
 }
 
@@ -65,7 +84,7 @@ function VideoCard({ video, onClick }) {
   const creator = D.creator(video.creatorId);
   return (
     <div className="card interactive video-card" onClick={() => onClick && onClick(video)}>
-      <Thumb label={tool.name} duration={video.duration} />
+      <Thumb label={tool.name} duration={video.duration} seed={video.id} />
       <div className="flex gap-6 items-center mb-8" style={{flexWrap: "wrap"}}>
         <span className={`tag ${video.level}`}>{video.level}</span>
         <span className="tag">{tool.name}</span>
@@ -79,7 +98,7 @@ function VideoCard({ video, onClick }) {
         <span>{video.completion}%</span>
       </div>
       <div className="creator-row">
-        <div className="creator-avatar">{creator.initials}</div>
+        <Avatar name={creator.name} initials={creator.initials} size={32} />
         <div style={{fontSize: 12.5}}>
           <span style={{fontWeight: 500}}>{creator.name}</span>
           {creator.verified && <Verified />}
@@ -202,4 +221,4 @@ function StarRater({ value, onChange, size = 22 }) {
 }
 
 
-export { PVLogo, Verified, Icon, Thumb, VideoCard, ToastStack, TopNav, StarRater };
+export { PVLogo, Verified, Icon, Thumb, VideoCard, ToastStack, TopNav, StarRater, Avatar, thumbUrl, avatarUrl };

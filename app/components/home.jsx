@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { PV_DATA } from './data';
-import { Icon, VideoCard, Verified } from './atoms';
+import { Icon, VideoCard, Verified, Avatar } from './atoms';
 import { Reveal, Stagger, CountUp, Ring, ProgressBar } from './motion-fx';
 
 const { useState: useStateH, useMemo: useMemoH, useEffect: useEffectH, useRef: useRefH } = React;
@@ -189,7 +189,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
           <Stagger className="creator-strip" stagger={0.04} y={14}>
             {topCreators.map(c => (
               <div key={c.id} className="creator-tile">
-                <div className="ca">{c.initials}</div>
+                <Avatar name={c.name} initials={c.initials} size={44} className="ca" />
                 <div className="who">
                   <b>{c.name}{c.verified && <Verified />}</b>
                   <small>{c.role} · {c.company}</small>
@@ -493,7 +493,7 @@ function HomePath({ profile, goto, onWatch, points, gamification }) {
           <div className="peer-strip">
             {peers.map(p => (
               <div key={p.id} className="peer-dot">
-                <div className="ca creator-avatar">{p.initials}</div>
+                <Avatar name={p.name} initials={p.initials} size={48} className="ca creator-avatar" />
                 <div style={{fontSize: 12, fontWeight: 600, marginTop: 8}}>{p.name.split(" ")[0]}</div>
                 <div className="dim mono" style={{fontSize: 10}}>{p.company}</div>
                 <span className="peer-live" />

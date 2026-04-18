@@ -3065,3 +3065,55 @@ h3, .h-3       { font-size: clamp(1rem, 0.95rem + 0.6vw, 1.2rem); }
     padding-right: max(clamp(14px, 4vw, 32px), env(safe-area-inset-right));
   }
 }
+
+/* =====================================================================
+   Image thumbnails + avatars (Picsum + DiceBear)
+   ===================================================================== */
+.thumb { position: relative; overflow: hidden; }
+.thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: var(--bg-sunk);
+  z-index: 0;
+}
+.thumb::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(10,10,11,0) 40%, rgba(10,10,11,0.55) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+.thumb .thumb-label, .thumb .duration, .thumb .play { z-index: 2; }
+.thumb .thumb-label { color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+.thumb .duration { color: #fff; backdrop-filter: blur(4px); background: rgba(10,10,11,0.55); }
+
+.ca-img {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--accent-tint);
+  color: var(--accent-deep);
+  font-weight: 600;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.ca-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.ca-img .ca-fallback {
+  position: relative;
+  z-index: 0;
+}
