@@ -114,14 +114,6 @@ function Tweaks({ tweaks, setTweaks }) {
 
   const set = (k, v) => setTweaks({ ...tweaks, [k]: v });
 
-  const swatches = [
-    { hue: 145, label: 'Neon green' },
-    { hue: 200, label: 'Cyan' },
-    { hue: 280, label: 'Purple' },
-    { hue: 30, label: 'Amber' },
-    { hue: 0, label: 'Coral' },
-  ];
-
   const variants = [
     { id: 'editorial', label: 'Editorial' },
     { id: 'feed', label: 'Feed' },
@@ -232,20 +224,6 @@ function Tweaks({ tweaks, setTweaks }) {
               <button key={t} className={tweaks.theme === t ? 'on' : ''} onClick={() => set('theme', t)}>
                 {t}
               </button>
-            ))}
-          </div>
-        </div>
-        <div className="row">
-          <label>Accent color</label>
-          <div className="swatch-row">
-            {swatches.map(s => (
-              <div
-                key={s.hue}
-                className={`swatch ${tweaks.accentHue === s.hue ? 'sel' : ''}`}
-                style={{ background: `oklch(0.86 0.22 ${s.hue})` }}
-                title={s.label}
-                onClick={() => set('accentHue', s.hue)}
-              />
             ))}
           </div>
         </div>
