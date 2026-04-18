@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* ---------- Restore block display for semantic elements ----------
+   Tailwind v4 preflight resets heading/paragraph styles; the prototype
+   relies on default block flow, so we restore it explicitly here. */
+h1, h2, h3, h4, h5, h6, p, label, section, nav, main, header, footer { display: block; }
+img, svg { display: inline-block; }
+
 /* ---------- Prompt University tokens ---------- */
 :root {
   /* light theme defaults — overwritten by JS based on tweaks */
@@ -1984,3 +1990,49 @@ input, textarea, select { font-family: inherit; color: inherit; }
 }
 [data-theme="dark"] .try-langdock.ghost { color: #a99fff; border-color: #a99fff; }
 .try-langdock.ghost:hover { background: rgba(91, 79, 233, 0.08); }
+
+/* ---------- Responsive polish (appended last for cascade priority) ----------
+   These rules must come last so they override earlier non-media rules that
+   share the same class specificity. */
+
+/* TopNav collapses on small screens — keep brand + profile, hide link row.
+   Users still navigate via in-content CTAs (Browse, Learning, Share). */
+@media (max-width: 720px) {
+  .topnav-inner { gap: 16px; height: 52px; }
+  .topnav .nav-links { display: none; }
+  .brand-name { font-size: 14px; }
+  .points-pill { padding: 4px 8px; font-size: 11px; }
+}
+
+/* Onboarding side panel truly hides on mobile — without this, the base
+   .onboard-side { display: flex } declared later in the file beats the
+   media-query-scoped display:none above it. */
+@media (max-width: 880px) {
+  .onboard { grid-template-columns: 1fr; }
+  .onboard .onboard-side { display: none; }
+}
+
+/* Onboarding form breathes on small screens. */
+@media (max-width: 560px) {
+  .onboard-form { padding: 24px 16px; gap: 24px; }
+  .h-1 { font-size: 26px; }
+  .h-display { font-size: 38px; }
+}
+
+/* Video page — already stacks below 1080px; tighten for mobile. */
+@media (max-width: 560px) {
+  .video-page { gap: 24px; }
+  .hero { padding: 24px 0; }
+  .hero h1 { font-size: 32px; }
+}
+
+/* Cards get comfortable padding on all screens. */
+@media (max-width: 480px) {
+  .card { padding: 16px; }
+}
+
+/* Touch targets: bump interactive divs that are borderline on mobile. */
+@media (max-width: 720px) {
+  .nav-link { padding: 10px 12px; min-height: 40px; display: flex; align-items: center; }
+  .avatar { width: 36px; height: 36px; }
+}

@@ -36,7 +36,6 @@ function App() {
   const [watched, setWatched] = useState(() => { try { return JSON.parse(localStorage.getItem("pv_watched") || "{}"); } catch { return {}; }});
   const [ratings, setRatings] = useState(() => { try { return JSON.parse(localStorage.getItem("pv_ratings") || "{}"); } catch { return {}; }});
   const [tweaks, setTweaks] = useState(() => ((typeof window !== "undefined" && window.__PV_TWEAKS) || DEFAULT_TWEAKS));
-  const [tweaksOpen, setTweaksOpen] = useState(false);
   const [editAvail, setEditAvail] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [langdockVideo, setLangdockVideo] = useState(null);
@@ -92,8 +91,8 @@ function App() {
   useEffect(() => {
     const onMsg = (e) => {
       if (!e.data || !e.data.type) return;
-      if (e.data.type === "__activate_edit_mode") setTweaksOpen(true);
-      if (e.data.type === "__deactivate_edit_mode") setTweaksOpen(false);
+      // Tweaks panel is persistent now — host activate/deactivate messages
+      // are accepted but no longer gate visibility.
     };
     window.addEventListener("message", onMsg);
     setEditAvail(true);
@@ -158,8 +157,22 @@ function App() {
   };
 
   // ----- Render
+  // Persistent tweaks block — always rendered, floats fixed bottom-right.
+  const tweaksBlock = (
+    <Tweaks
+      tweaks={tweaks}
+      setTweaks={persistTweaks}
+      onClose={() => {}}
+    />
+  );
+
   if (!profile) {
-    return <Onboarding onDone={(p) => { setProfile(p); setRoute("home"); }} />;
+    return (
+      <>
+        <Onboarding onDone={(p) => { setProfile(p); setRoute("home"); }} />
+        {tweaksBlock}
+      </>
+    );
   }
 
   const activeProfile = lensProfile || profile;
@@ -182,7 +195,7 @@ function App() {
       {page}
       <ToastStack toasts={toasts} />
       <LangdockPanel open={!!langdockVideo} video={langdockVideo} onClose={closeLangdock} onComplete={onLangdockComplete} />
-      {tweaksOpen && <Tweaks tweaks={tweaks} setTweaks={persistTweaks} onClose={() => setTweaksOpen(false)} />}
+      {tweaksBlock}
       <button className="mobile-toggle" onClick={() => setMobile(m => !m)}>
         {mobile ? "← Desktop" : "📱 Mobile preview"}
       </button>
@@ -219,7 +232,7 @@ function App() {
           </div>
         </div>
         <ToastStack toasts={toasts} />
-        {tweaksOpen && <Tweaks tweaks={tweaks} setTweaks={persistTweaks} onClose={() => setTweaksOpen(false)} />}
+        {tweaksBlock}
         <button className="mobile-toggle" onClick={() => setMobile(false)}>← Desktop</button>
       </div>
     );
