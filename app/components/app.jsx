@@ -223,6 +223,7 @@ function App() {
           </div>
           <div className="scroll">
             <MobileView profile={profile} route={route} routeParams={routeParams} goto={goto} onWatch={onWatch} points={points} simWatch={simWatch} watched={watched} ratings={ratings} onRate={onRate} />
+            <SiteFooter />
           </div>
           <div className="tabbar">
             {[
