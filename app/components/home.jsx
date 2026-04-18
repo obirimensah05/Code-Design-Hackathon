@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { PV_DATA } from './data';
-import { Icon, VideoCard, Verified, Avatar } from './atoms';
+import { Icon, VideoCard, Verified, Avatar, thumbUrl } from './atoms';
 import { Reveal, Stagger, CountUp, Ring, ProgressBar } from './motion-fx';
 
 const { useState: useStateH, useMemo: useMemoH, useEffect: useEffectH, useRef: useRefH } = React;
@@ -228,7 +228,7 @@ function HomeFeed({ profile, goto, onWatch, points, gamification }) {
           {/* LEFT rail: context */}
           <Reveal as="aside" className="feed-rail" y={12}>
             <div className="eyebrow mb-16">For you · {fieldName}</div>
-            <h1 className="h-1" style={{fontSize: 32, marginBottom: 12, letterSpacing: "-0.025em"}}>
+            <h1 className="hd-1" style={{fontSize: 32, marginBottom: 12, letterSpacing: "-0.025em"}}>
               Peer tips, one at a time.
             </h1>
             <p className="muted" style={{fontSize: 14, lineHeight: 1.55, marginBottom: 24}}>
@@ -246,6 +246,7 @@ function HomeFeed({ profile, goto, onWatch, points, gamification }) {
               return (
                 <div key={vv.id} className={`reel-card ${isActive ? "active" : ""}`}>
                   <div className="reel-player">
+                    <img className="reel-player-img" src={thumbUrl(vv.id, 960, 540)} alt="" loading="lazy" decoding="async" />
                     <div className="reel-player-bg" />
                     <div className="reel-player-ctrl">
                       <div className="play-big" onClick={() => onWatch(vv)}>
@@ -261,9 +262,9 @@ function HomeFeed({ profile, goto, onWatch, points, gamification }) {
                       <span className="tag">{vtool.name}</span>
                       <span className="dim mono" style={{fontSize: 11.5}}>{D.fmtViews(vv.views)} views · ★ {vv.rating}</span>
                     </div>
-                    <h3 className="h-3" style={{fontSize: 18, marginBottom: 10}}>{vv.title}</h3>
+                    <h3 className="hd-3" style={{fontSize: 18, marginBottom: 10}}>{vv.title}</h3>
                     <div className="flex gap-8 items-center">
-                      <div className="creator-avatar" style={{width: 28, height: 28, fontSize: 11}}>{vcreator.initials}</div>
+                      <Avatar name={vcreator.name} initials={vcreator.initials} size={28} className="creator-avatar" />
                       <div style={{fontSize: 12.5}}>
                         <span style={{fontWeight: 600}}>{vcreator.name}</span>
                         {vcreator.verified && <Verified/>} <span className="dim">· {vcreator.role}</span>
@@ -300,7 +301,7 @@ function HomeFeed({ profile, goto, onWatch, points, gamification }) {
               ].map((c, i) => (
                 <div key={i} style={{paddingTop: i ? 12 : 0, borderTop: i ? "1px solid var(--border)" : "none"}}>
                   <div className="flex gap-8 items-center mb-8">
-                    <div className="creator-avatar">{c.who}</div>
+                    <Avatar name={c.name} initials={c.who} size={28} className="creator-avatar" />
                     <div style={{fontSize: 12.5, fontWeight: 600}}>{c.name}</div>
                     <div className="dim mono" style={{fontSize: 11}}>{c.time}</div>
                   </div>
@@ -339,7 +340,7 @@ function HomeLibrary({ profile, goto, onWatch, points, gamification }) {
     <div className="route">
       <div className="shell">
         <section className="lib-hero">
-          <div>
+          <Reveal y={16}>
             <div className="hero-meta">
               <span style={{width: 6, height: 6, background: "var(--fg)", display: "inline-block"}} />
               The library · open 24/7
@@ -356,7 +357,7 @@ function HomeLibrary({ profile, goto, onWatch, points, gamification }) {
               </button>
               <button className="btn btn-secondary btn-lg" onClick={() => goto("learning")}>Your shelf</button>
             </div>
-          </div>
+          </Reveal>
           <HeroStats profile={profile} points={points} gamification={gamification} fieldName={fieldName} />
         </section>
 
@@ -365,7 +366,7 @@ function HomeLibrary({ profile, goto, onWatch, points, gamification }) {
             <div className="shelf-head">
               <div>
                 <div className="eyebrow mb-8">Shelf</div>
-                <h2 className="h-2" style={{fontSize: 26, letterSpacing: "-0.02em"}}>{shelf.title}</h2>
+                <h2 className="hd-2" style={{fontSize: 26, letterSpacing: "-0.02em"}}>{shelf.title}</h2>
                 <div className="dim mono" style={{fontSize: 12, marginTop: 6}}>{shelf.sub} · {shelf.tools.length} titles</div>
               </div>
               <div className="dim mono" style={{fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", alignSelf: "end"}}>
@@ -448,7 +449,7 @@ function HomePath({ profile, goto, onWatch, points, gamification }) {
               {today.title}
             </h1>
             <div className="flex gap-8 items-center mb-24">
-              <div className="creator-avatar" style={{width: 32, height: 32, fontSize: 12}}>{todayCreator.initials}</div>
+              <Avatar name={todayCreator.name} initials={todayCreator.initials} size={32} className="creator-avatar" />
               <div>
                 <div style={{fontWeight: 600, fontSize: 13.5}}>{todayCreator.name}{todayCreator.verified && <Verified/>}</div>
                 <div className="dim mono" style={{fontSize: 11.5}}>{todayCreator.role} · {todayCreator.company}</div>
@@ -486,7 +487,7 @@ function HomePath({ profile, goto, onWatch, points, gamification }) {
           <div className="section-head">
             <div>
               <div className="eyebrow mb-8">◎ Your peers</div>
-              <h2 className="h-2">What others in {fieldName.toLowerCase()} are learning</h2>
+              <h2 className="hd-2">What others in {fieldName.toLowerCase()} are learning</h2>
             </div>
             <div className="head-meta">Live · {peers.length} active</div>
           </div>
@@ -501,15 +502,18 @@ function HomePath({ profile, goto, onWatch, points, gamification }) {
             ))}
           </div>
           <div className="peer-feed">
-            {peerActivity.map((a, i) => (
-              <div key={i} className="peer-row">
-                <div className="creator-avatar">{a.who.split(" ").map(s => s[0]).slice(0,2).join("")}</div>
-                <div style={{flex: 1, fontSize: 13.5}}>
-                  <b>{a.who}</b> <span className="dim">{a.act}</span> <span style={{fontWeight: 500}}>"{a.what}"</span>
+            {peerActivity.map((a, i) => {
+              const ini = a.who.split(" ").map(s => s[0]).slice(0,2).join("");
+              return (
+                <div key={i} className="peer-row">
+                  <Avatar name={a.who} initials={ini} size={32} className="creator-avatar" />
+                  <div style={{flex: 1, fontSize: 13.5}}>
+                    <b>{a.who}</b> <span className="dim">{a.act}</span> <span style={{fontWeight: 500}}>"{a.what}"</span>
+                  </div>
+                  <div className="dim mono" style={{fontSize: 11}}>{a.time}</div>
                 </div>
-                <div className="dim mono" style={{fontSize: 11}}>{a.time}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
@@ -517,7 +521,7 @@ function HomePath({ profile, goto, onWatch, points, gamification }) {
           <div className="section-head">
             <div>
               <div className="eyebrow mb-8">↗ After today</div>
-              <h2 className="h-2">Next three days on your path</h2>
+              <h2 className="hd-2">Next three days on your path</h2>
             </div>
           </div>
           <div className="path-timeline">

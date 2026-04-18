@@ -530,11 +530,10 @@ input, textarea, select { font-family: inherit; color: inherit; }
 }
 .hero h1 {
   font-size: clamp(40px, 5.4vw, 64px);
-  line-height: 1.15;
   letter-spacing: -0.03em;
-  margin: 0 0 0.35em;
   font-weight: 600;
   text-wrap: balance;
+  /* line-height + margin inherit from the source rule (1.3 / 0.55em) */
 }
 .hero h1 em {
   font-style: normal;
@@ -2035,15 +2034,8 @@ input, textarea, select { font-family: inherit; color: inherit; }
   .avatar { width: 36px; height: 36px; }
 }
 
-/* ---------- Heading breathing room (belt-and-suspenders) ----------
-   Add explicit bottom margin to major headings. Works alongside
-   flex-gap and provides fallback spacing when h + p siblings are
-   in plain block containers. */
-.h-display { margin: 0 0 16px; }
-.h-1 { margin: 0 0 12px; }
-.h-2 { margin: 0 0 10px; }
-.hero h1 { margin: 0 0 20px; }
-.tool-hero h1 { margin: 0 0 16px; }
+/* (Heading rhythm lives in a single source-of-truth block near the
+   end of this file: h1, .h-1 { margin: 0 0 0.55em; line-height: 1.3 }) */
 
 /* ---------- Tweaks collapsed bubble ---------- */
 .tweaks-bubble {
@@ -2080,16 +2072,14 @@ input, textarea, select { font-family: inherit; color: inherit; }
 @media (max-width: 720px) {
   .tweaks-panel { width: calc(100vw - 40px); max-width: 320px; }
   .tweaks-bubble { bottom: 16px; right: 16px; padding: 8px 14px 8px 12px; font-size: 11px; }
-  .hero h1 { font-size: clamp(28px, 8vw, 40px); line-height: 1.1; }
+  /* Only shrink the heading — keep line-height from the source rule */
+  .hero h1 { font-size: clamp(1.75rem, 8vw, 2.5rem); }
   .ctas { flex-direction: column; align-items: stretch; }
   .ctas .btn { width: 100%; justify-content: center; }
   .shell { padding: 0 16px; }
 }
 @media (max-width: 480px) {
-  .h-display { font-size: 34px; }
-  .h-1 { font-size: 24px; }
-  .h-2 { font-size: 18px; }
-  .btn-lg { padding: 11px 18px; font-size: 14px; }
+  .btn-lg { padding: 0.75em 1.25em; font-size: 0.875rem; }
   .points-pill { display: none; }
 }
 
@@ -2537,44 +2527,8 @@ img.avatar-xl { object-fit: cover; }
    subtitle pairs that were rendering tight/overlapping across viewports.
    ===================================================================== */
 
-/* Shelf head (library home variant) */
-.shelf-head h2 { margin-bottom: 14px !important; }
-.shelf-head .eyebrow { margin-bottom: 8px; display: block; }
-.shelf-head > div:first-child { padding-right: 16px; min-width: 0; }
-
-/* Onboarding step title + subtitle breathe more */
-.onboard-form .row-gap-12 { gap: 16px; }
-.onboard-form .row-gap-12 .h-1 { margin-bottom: 0; }
-.onboard-form .row-gap-12 > .eyebrow + .h-1 { margin-top: 4px; }
-
-/* ShareKnowledge / any hero with a trailing lead paragraph */
-.hero > div > .h-1 { margin: 0 0 16px; }
-.hero > div > .h-1 + p,
-.hero > div > .h-1 + .muted,
-.hero > div > .h-display + p,
-.hero > div > .h-display + .muted { margin-top: 0; }
-
-/* Section-head inside cards (e.g. Step 1 — Paste your video URL) */
-.card h2.h-2 + p,
-.card h2.h-2 + .muted { margin-top: 8px; }
-.card h2.h-2 + p.muted { margin-top: 6px; }
-
-/* Ported card content spacing — title + desc shouldn't be tight */
-.pv-card--padded h2.h-2 { margin-bottom: 4px; }
-.pv-card--padded h2.h-2 + p { margin-top: 0; margin-bottom: 16px; }
-
-/* Video-card title + meta breathing */
-.video-card h3 { margin-bottom: 8px; }
-.video-card h3 + .meta-row { margin-top: 4px; }
-
-/* Tool-hero spacing on detail pages */
-.tool-hero h1 { margin-bottom: 16px; }
-.tool-hero h1 + p { margin-top: 0; }
-.tool-hero p + .flex { margin-top: 24px; }
-
-/* Browse hero Find-your-next h1 should have breathing below */
-.route > .shell > .hero h1 + .mono,
-.route > .shell > .hero h1 + p { margin-top: 16px; }
+/* Onboarding layout gap (not a heading rule — keeps form steps spaced) */
+.onboard-form .row-gap-12 { gap: 1em; }
 
 /* =====================================================================
    DEFINITIVE heading + subtitle spacing (PC + mobile)
@@ -2784,79 +2738,8 @@ h3 + p, h3 + .muted, h3 + .lead, h3 + .dim,
   .nav-link::after { transition: none; }
 }
 
-/* =====================================================================
-   Final spacing pass — ensure every heading + subtitle pair breathes,
-   across browse, tool, leaderboard, video, onboarding, and mobile views.
-   ===================================================================== */
-
-/* Section-heads with an eyebrow above the title should have consistent gap */
-.section-head .eyebrow { display: block; margin-bottom: 10px; }
-.section-head h2, .section-head .h-2 { margin-bottom: 4px; }
-.section-head > div > .dim + .eyebrow { margin-top: 10px; }
-
-/* Anywhere .eyebrow sits directly above an h1/h2/h3/h-* */
-.eyebrow + h1, .eyebrow + h2, .eyebrow + h3,
-.eyebrow + .h-display, .eyebrow + .h-1, .eyebrow + .h-2, .eyebrow + .h-3 {
-  margin-top: 0;
-}
-
-/* Hero blocks: title → paragraph always gets at least 12px gap */
-.hero h1 + p, .hero h1 + .lead,
-.hero .h-1 + p, .hero .h-1 + .lead,
-.hero .h-display + p, .hero .h-display + .lead {
-  margin-top: 12px;
-}
-
-/* Tool-hero (detail page) */
-.tool-hero .eyebrow { margin-bottom: 12px; }
-.tool-hero h1 { margin-bottom: 16px; }
-.tool-hero h1 + p, .tool-hero h1 + .muted, .tool-hero h1 + .lead { margin-top: 0; }
-
-/* Video page: title + creator row */
-.video-page h1 { margin-bottom: 14px; }
-.video-page h1 + .meta-row, .video-page h1 + p { margin-top: 6px; }
-
-/* Leaderboard title block */
-.leaderboard-head h1 { margin-bottom: 12px; }
-.leaderboard-head h1 + p, .leaderboard-head h1 + .muted { margin-top: 0; }
-
-/* Onboarding step headers: h-1 + helper text */
-.onboard-form .h-1 { margin-bottom: 10px; }
-.onboard-form .h-1 + p, .onboard-form .h-1 + .muted { margin-top: 0; }
-
-/* ShareKnowledge / creator form step headers inside the step card */
-.card h2.h-2 { margin-bottom: 6px; }
-.card h2.h-2 + p, .card h2.h-2 + .muted { margin-top: 2px; }
-.card .h-2 + p { line-height: 1.5; }
-
-/* Field + goals grid labels above a grid need breathing */
-.pv-card--padded h2 + p { margin-top: 2px; margin-bottom: 16px; }
-
-/* Path hero today's lesson h1 */
-.path-today h1 { margin-bottom: 18px; }
-.path-today .eyebrow + h1 { margin-top: 6px; }
-
-/* Feed rail h1 + subtitle */
-.feed-rail h1 { margin-bottom: 10px; }
-.feed-rail h1 + p, .feed-rail h1 + .muted { margin-top: 0; margin-bottom: 20px; }
-
-/* Library hero */
-.lib-hero h1 { margin-bottom: 16px; }
-.lib-hero h1 + p, .lib-hero h1 + .lead { margin-top: 0; }
-
-/* Shelf head: the title should NEVER touch the em-dash meta below */
-.shelf-head h2, .shelf-head .h-2 { margin-bottom: 6px; }
-.shelf-head h2 + .dim, .shelf-head .h-2 + .dim { margin-top: 2px; }
-
-/* Mobile: tighter overall but never touching */
-@media (max-width: 720px) {
-  .section-head .eyebrow { margin-bottom: 8px; }
-  .hero h1 + p, .hero h1 + .lead,
-  .hero .h-1 + p, .hero .h-1 + .lead,
-  .hero .h-display + p, .hero .h-display + .lead { margin-top: 10px; }
-  .onboard-form .h-1 { margin-bottom: 8px; }
-  .feed-rail h1 + p, .feed-rail h1 + .muted { margin-bottom: 16px; }
-}
+/* Section-head eyebrow below its row — em-based so it tracks font size */
+.section-head .eyebrow { display: block; margin-bottom: 0.7em; }
 
 /* =====================================================================
    Fluid + device-aware responsive pass

@@ -165,7 +165,7 @@ function Onboarding({ onDone }) {
         </Stepper>
         <div className="row-gap-12">
           <div className="eyebrow">Step {step + 1} of {total}</div>
-          <h1 className="h-1" style={{fontSize: 36}}>{cur.title}</h1>
+          <h1 className="hd-1" style={{fontSize: 36}}>{cur.title}</h1>
           <p className="muted" style={{fontSize: 15, margin: 0}}>{cur.sub}</p>
         </div>
         <div className="route" key={step}>{cur.body}</div>

@@ -32,7 +32,7 @@ function Browse({ onWatch, goto, profile }) {
         <div className="hero" style={{padding: "40px 0 0", gridTemplateColumns: "1fr"}}>
           <div>
             <div className="eyebrow mb-16">Browse</div>
-            <h1 className="h-1" style={{fontSize: 44, letterSpacing: "-0.025em"}}>
+            <h1 className="hd-1" style={{fontSize: 44, letterSpacing: "-0.025em"}}>
               {filtered.length === 24 ? "200+" : filtered.length} videos. <span className="dim">Find your next.</span>
             </h1>
           </div>

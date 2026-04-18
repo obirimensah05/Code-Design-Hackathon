@@ -96,7 +96,7 @@ function VideoPage({ video, onWatch, onRate, goto, watched, rating, openLangdock
                 <span className="tag">{tool.name}</span>
                 <span className="dim mono" style={{fontSize: 12}}>{D.fmtViews(video.views)} views · {video.completion}% completion</span>
               </div>
-              <h1 className="h-1" style={{fontSize: 28, marginBottom: 16}}>{video.title}</h1>
+              <h1 className="hd-1" style={{fontSize: 28, marginBottom: 16}}>{video.title}</h1>
 
               <div className="card" style={{padding: 18, marginBottom: 24, background: "linear-gradient(135deg, color-mix(in oklch, #5B4FE9 6%, var(--bg-elev)), var(--bg-elev))", borderColor: "color-mix(in oklch, #5B4FE9 20%, var(--border))"}}>
                 <div style={{display: "flex", alignItems: "center", gap: 16}}>
@@ -142,7 +142,7 @@ function VideoPage({ video, onWatch, onRate, goto, watched, rating, openLangdock
                 </div>
               </div>
 
-              <h3 className="h-3 mb-16">Up next in {tool.name}</h3>
+              <h3 className="hd-3 mb-16">Up next in {tool.name}</h3>
               <div className="video-grid dense">
                 {next.map(v => <VideoCard key={v.id} video={v} onClick={(vv) => goto("video", { videoId: vv.id })} />)}
               </div>

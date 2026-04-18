@@ -61,7 +61,7 @@ function Leaderboard({ profile, points, simWatch }) {
               <Icon.trophy size={11}/> Week of April 14 — resets in 4d 12h
               {updatedNow && <span style={{color: "var(--accent-deep)", marginLeft: 12}}>● Updated now</span>}
             </div>
-            <h1 className="h-1" style={{fontSize: 44}}>Leaderboard</h1>
+            <h1 className="hd-1" style={{fontSize: 44}}>Leaderboard</h1>
           </div>
         </div>
 

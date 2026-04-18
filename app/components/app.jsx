@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { PV_DATA } from './data';
-import { Icon, VideoCard, ToastStack, TopNav } from './atoms';
+import { Icon, VideoCard, ToastStack, TopNav, Avatar } from './atoms';
 import { Onboarding } from './onboarding';
 import { Home } from './home';
 import { Browse } from './browse';
@@ -322,7 +322,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
   const identityTab = (
     <div className="row-gap-20">
       <div className="pv-card pv-card--padded">
-        <h2 className="h-2">Photo</h2>
+        <h2 className="hd-2">Photo</h2>
         <p className="dim" style={{fontSize: 13, marginTop: 0, marginBottom: 16}}>
           Add a real photo or keep the initials. Stored in your browser only.
         </p>
@@ -334,7 +334,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
       </div>
 
       <div className="pv-card pv-card--padded">
-        <h2 className="h-2">Identity</h2>
+        <h2 className="hd-2">Identity</h2>
         <p className="dim" style={{fontSize: 13, marginTop: 0, marginBottom: 16}}>
           Name, email, and role — shown on the leaderboard and on anything you share.
         </p>
@@ -352,7 +352,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
       </div>
 
       <div className="pv-card pv-card--padded">
-        <h2 className="h-2">Field</h2>
+        <h2 className="hd-2">Field</h2>
         <p className="dim" style={{fontSize: 13, marginTop: 0, marginBottom: 16}}>
           How we tailor your home. Also shows on your public profile.
         </p>
@@ -367,7 +367,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
       </div>
 
       <div className="pv-card pv-card--padded">
-        <h2 className="h-2">Goals</h2>
+        <h2 className="hd-2">Goals</h2>
         <p className="dim" style={{fontSize: 13, marginTop: 0, marginBottom: 16}}>
           Pick everything that fits. We'll weight recommendations around these.
         </p>
@@ -401,7 +401,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
   const activityTab = (
     <div className="row-gap-20">
       <div className="pv-card pv-card--padded">
-        <h2 className="h-2">Your numbers</h2>
+        <h2 className="hd-2">Your numbers</h2>
         <p className="dim" style={{fontSize: 13, marginTop: 0, marginBottom: 20}}>
           Adds up as you watch, rate, and share.
         </p>
@@ -413,7 +413,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
       </div>
 
       <div className="pv-card pv-card--padded">
-        <h2 className="h-2">Recent activity</h2>
+        <h2 className="hd-2">Recent activity</h2>
         <p className="dim" style={{fontSize: 13, marginTop: 0, marginBottom: 20}}>
           Last 30 things you did in the app.
         </p>
@@ -425,7 +425,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
   const appearanceTab = (
     <div className="row-gap-20">
       <div className="pv-card pv-card--padded">
-        <h2 className="h-2">Theme</h2>
+        <h2 className="hd-2">Theme</h2>
         <p className="dim" style={{fontSize: 13, marginTop: 0, marginBottom: 16}}>
           Warm light or warm charcoal. Pick what your eyes prefer.
         </p>
@@ -448,7 +448,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
       </div>
 
       <div className="pv-card pv-card--padded pv-card--danger">
-        <h2 className="h-2">Reset everything</h2>
+        <h2 className="hd-2">Reset everything</h2>
         <p className="dim" style={{fontSize: 13.5, marginTop: 0, marginBottom: 16}}>
           Clears your profile, watched history, points, and ratings from this browser. There's no server copy — once you reset, it's gone.
         </p>
@@ -476,7 +476,7 @@ function Profile({ profile, setProfile, points, watched, langdockCompletedFor, t
         <div className="hero profile-hero" style={{padding: "40px 0 24px", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 24}}>
           <div>
             <div className="eyebrow mb-16">Your profile</div>
-            <h1 className="h-1" style={{fontSize: 44}}>{profile.name}</h1>
+            <h1 className="hd-1" style={{fontSize: 44}}>{profile.name}</h1>
             <p className="muted" style={{fontSize: 15, maxWidth: 540, marginTop: 8}}>
               <Badge variant="soft" color="info" size="sm" style={{marginRight: 8}}>
                 {D.FIELDS.find(f => f.id === profile.field)?.name || "—"}
@@ -515,7 +515,7 @@ function Learning({ profile, goto, watched }) {
         <div className="hero" style={{padding: "40px 0", gridTemplateColumns: "1fr"}}>
           <div>
             <div className="eyebrow mb-16">My learning</div>
-            <h1 className="h-1" style={{fontSize: 44}}>Continue where you left off.</h1>
+            <h1 className="hd-1" style={{fontSize: 44}}>Continue where you left off.</h1>
           </div>
         </div>
 
@@ -569,7 +569,7 @@ function ShareKnowledge({ goto, profile }) {
         <div className="hero" style={{padding: "40px 0 0", gridTemplateColumns: "1fr"}}>
           <div>
             <div className="eyebrow mb-16">Creator</div>
-            <h1 className="h-1" style={{fontSize: 44}}>Share what you know.</h1>
+            <h1 className="hd-1" style={{fontSize: 44}}>Share what you know.</h1>
             <p className="muted" style={{fontSize: 16, maxWidth: 540, marginTop: 16}}>Paste a YouTube link, tag the tool & level. Live in 30 seconds.</p>
           </div>
         </div>
@@ -582,7 +582,7 @@ function ShareKnowledge({ goto, profile }) {
           {step === 0 && (
             <div className="row-gap-24">
               <div>
-                <h2 className="h-2 mb-8">Step 1 — Paste your video URL</h2>
+                <h2 className="hd-2 mb-8">Step 1 — Paste your video URL</h2>
                 <p className="muted" style={{fontSize: 13.5, margin: 0}}>YouTube or Vimeo. We'll embed it automatically.</p>
               </div>
               <input className="input" placeholder="https://youtube.com/watch?v=..." value={form.url} onChange={e => setForm({...form, url: e.target.value})} />
@@ -594,7 +594,7 @@ function ShareKnowledge({ goto, profile }) {
           {step === 1 && (
             <div className="row-gap-24">
               <div>
-                <h2 className="h-2 mb-8">Step 2 — Tag your video</h2>
+                <h2 className="hd-2 mb-8">Step 2 — Tag your video</h2>
                 <p className="muted" style={{fontSize: 13.5, margin: 0}}>So learners can find it.</p>
               </div>
               <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16}}>
@@ -709,7 +709,7 @@ function MobileView({ profile, route, routeParams, goto, onWatch, points, simWat
     return (
       <div>
         <div style={{textAlign: "center", padding: "20px 0"}}>
-          <div className="creator-avatar" style={{width: 64, height: 64, fontSize: 22, margin: "0 auto 12px"}}>{profile.initials}</div>
+          <Avatar name={profile.name} initials={profile.initials} size={64} className="creator-avatar" style={{margin: "0 auto 12px"}} />
           <div style={{fontSize: 20, fontWeight: 600}}>{profile.name}</div>
           <div className="dim" style={{fontSize: 13}}>{profile.role}</div>
         </div>
