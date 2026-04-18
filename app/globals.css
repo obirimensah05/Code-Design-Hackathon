@@ -2533,3 +2533,47 @@ img.avatar-xl { object-fit: cover; }
 
 /* TopNav avatar image variant */
 .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+/* =====================================================================
+   Spacing hot-fixes — targeted higher-specificity rules for heading +
+   subtitle pairs that were rendering tight/overlapping across viewports.
+   ===================================================================== */
+
+/* Shelf head (library home variant) */
+.shelf-head h2 { margin-bottom: 14px !important; }
+.shelf-head .eyebrow { margin-bottom: 8px; display: block; }
+.shelf-head > div:first-child { padding-right: 16px; min-width: 0; }
+
+/* Onboarding step title + subtitle breathe more */
+.onboard-form .row-gap-12 { gap: 16px; }
+.onboard-form .row-gap-12 .h-1 { margin-bottom: 0; }
+.onboard-form .row-gap-12 > .eyebrow + .h-1 { margin-top: 4px; }
+
+/* ShareKnowledge / any hero with a trailing lead paragraph */
+.hero > div > .h-1 { margin: 0 0 16px; }
+.hero > div > .h-1 + p,
+.hero > div > .h-1 + .muted,
+.hero > div > .h-display + p,
+.hero > div > .h-display + .muted { margin-top: 0; }
+
+/* Section-head inside cards (e.g. Step 1 — Paste your video URL) */
+.card h2.h-2 + p,
+.card h2.h-2 + .muted { margin-top: 8px; }
+.card h2.h-2 + p.muted { margin-top: 6px; }
+
+/* Ported card content spacing — title + desc shouldn't be tight */
+.pv-card--padded h2.h-2 { margin-bottom: 4px; }
+.pv-card--padded h2.h-2 + p { margin-top: 0; margin-bottom: 16px; }
+
+/* Video-card title + meta breathing */
+.video-card h3 { margin-bottom: 8px; }
+.video-card h3 + .meta-row { margin-top: 4px; }
+
+/* Tool-hero spacing on detail pages */
+.tool-hero h1 { margin-bottom: 16px; }
+.tool-hero h1 + p { margin-top: 0; }
+.tool-hero p + .flex { margin-top: 24px; }
+
+/* Browse hero Find-your-next h1 should have breathing below */
+.route > .shell > .hero h1 + .mono,
+.route > .shell > .hero h1 + p { margin-top: 16px; }
