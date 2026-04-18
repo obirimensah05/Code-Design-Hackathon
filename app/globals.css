@@ -3000,3 +3000,150 @@ h3, .h-3       { font-size: clamp(1rem, 0.95rem + 0.6vw, 1.2rem); }
   position: relative;
   z-index: 0;
 }
+
+/* =====================================================================
+   Leaderboard + ShareKnowledge — narrow-viewport hardening.
+   Applies to real phones (<=560px media query) AND to the mobile
+   preview container (.mobile-frame .scroll) so the layouts collapse
+   even when the viewport is still desktop.
+   ===================================================================== */
+
+/* Leaderboard */
+@media (max-width: 560px) {
+  .lb-hero { grid-template-columns: 1fr; padding: 1.25em; gap: 1em; }
+  .lb-hero h2 { font-size: 2rem; }
+  .lb-hero .btn-lg { width: 100%; justify-content: center; }
+  .lb-tabs { gap: 0.375em; overflow-x: auto; flex-wrap: nowrap; margin: 1em 0; padding-bottom: 0.25em; }
+  .lb-tabs::-webkit-scrollbar { display: none; }
+  .lb-tab { flex-shrink: 0; padding: 0.6em 0.8em; font-size: 0.8125rem; }
+  .lb-tab small { display: none; }
+  .lb-row { grid-template-columns: 2.25em 1fr 3.25em; gap: 0.75em; padding: 0.875em 0.875em; }
+  .lb-row .lb-videos { display: none; }
+  .lb-row .lb-who .rl { display: none; }
+  .lb-row .lb-who .nm { font-size: 0.8125rem; }
+  .lb-row .lb-pts { font-size: 0.875rem; }
+  .lb-context { grid-template-columns: 1fr; gap: 0.625em; }
+  .lb-context .ctx { padding: 0.875em 1em; }
+}
+
+/* Share Knowledge */
+@media (max-width: 560px) {
+  .route > .shell > .card { padding: 1.25em !important; margin: 1em 0 !important; }
+  .card .row-gap-24 { gap: 1em; }
+  .card select.select, .card input.input, .card textarea.textarea { width: 100%; font-size: 1rem; }
+  .card > div[style*="grid-template-columns"] { display: flex !important; flex-direction: column !important; gap: 0.75em !important; }
+  .card .flex { flex-wrap: wrap; gap: 0.5em; }
+  .step-bar span { flex: 1; }
+}
+
+/* Mobile preview frame on desktop — force the SAME narrow layout
+   regardless of viewport width. Scoped under .mobile-frame .scroll
+   so it only affects the preview, never the real app. */
+.mobile-frame .scroll .lb-hero {
+  grid-template-columns: 1fr;
+  padding: 1.25em;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+.mobile-frame .scroll .lb-hero h2 { font-size: 1.875rem; }
+.mobile-frame .scroll .lb-hero .btn-lg { width: 100%; justify-content: center; padding: 0.6em 1em; font-size: 0.8125rem; }
+.mobile-frame .scroll .lb-hero .dim { font-size: 0.625rem; }
+.mobile-frame .scroll .lb-tabs { gap: 0.375em; overflow-x: auto; flex-wrap: nowrap; margin: 0.75em 0; padding-bottom: 0.25em; }
+.mobile-frame .scroll .lb-tabs::-webkit-scrollbar { display: none; }
+.mobile-frame .scroll .lb-tab { flex-shrink: 0; padding: 0.5em 0.75em; font-size: 0.75rem; }
+.mobile-frame .scroll .lb-tab small { display: none; }
+.mobile-frame .scroll .lb-row {
+  grid-template-columns: 2em 1fr 3em;
+  gap: 0.5em;
+  padding: 0.75em 0.75em;
+}
+.mobile-frame .scroll .lb-row .lb-videos { display: none; }
+.mobile-frame .scroll .lb-row .lb-who .rl { display: none; }
+.mobile-frame .scroll .lb-row .lb-who .nm { font-size: 0.75rem; }
+.mobile-frame .scroll .lb-row .lb-who .ca { width: 1.75em; height: 1.75em; font-size: 0.6875rem; }
+.mobile-frame .scroll .lb-row .lb-pts { font-size: 0.8125rem; }
+.mobile-frame .scroll .lb-context { grid-template-columns: 1fr; gap: 0.5em; margin-top: 1em; }
+
+.mobile-frame .scroll .hero { padding: 1.25em 0 0.5em !important; grid-template-columns: 1fr !important; gap: 0.75em !important; }
+.mobile-frame .scroll .hero h1,
+.mobile-frame .scroll .hero .hd-1 {
+  font-size: clamp(1.5rem, 8vw, 2rem) !important;
+}
+
+.mobile-frame .scroll .card { padding: 1.25em !important; margin: 1em 0 !important; max-width: 100% !important; }
+.mobile-frame .scroll .card > div[style*="grid-template-columns"] { display: flex !important; flex-direction: column !important; gap: 0.75em !important; }
+.mobile-frame .scroll .card .flex { flex-wrap: wrap; gap: 0.5em; }
+.mobile-frame .scroll select, .mobile-frame .scroll input, .mobile-frame .scroll textarea { width: 100%; font-size: 1rem; }
+
+.mobile-frame .scroll .stat-strip { grid-template-columns: repeat(2, 1fr) !important; gap: 0.5em; }
+.mobile-frame .scroll .stat .num { font-size: 1.25rem; }
+
+.mobile-frame .scroll .section-head { flex-wrap: wrap; gap: 0.5em; }
+
+/* =====================================================================
+   HomeFeed on real mobile — the Picsum thumbnail on the reel-player
+   needs positioning, and the reel-card should truly stack.
+   ===================================================================== */
+.reel-player-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.reel-player-bg { z-index: 1; }
+.reel-player-ctrl, .reel-player-tag, .reel-player-duration { z-index: 2; }
+
+@media (max-width: 720px) {
+  /* Reel cards should flow naturally, not fight for viewport height */
+  .reel-card {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+    padding: 1em;
+    gap: 0.875em;
+  }
+  .reel-player {
+    aspect-ratio: 16/10;
+    max-height: none !important;
+    height: auto !important;
+  }
+  .reel-meta { align-self: auto; }
+  .reel-meta .hd-3 { font-size: 1rem; }
+  .reel-actions {
+    grid-column: 1 / -1;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.5em;
+    align-self: auto;
+  }
+  .reel-act { width: 2.75em; height: 2.75em; }
+  .reel-counter { margin-left: auto; align-self: center; }
+  .feed-layout { grid-template-columns: 1fr !important; gap: 1em !important; padding: 1em 0 !important; }
+  .feed-rail { position: static !important; display: block !important; padding-bottom: 0.5em; }
+  .feed-rail.right { display: block !important; }
+  .feed-rail .stat-strip { margin-top: 0.5em; }
+}
+
+/* Same feed-card collapse inside the mobile preview frame */
+.mobile-frame .scroll .feed-layout { grid-template-columns: 1fr !important; gap: 1em !important; padding: 0 !important; }
+.mobile-frame .scroll .feed-rail { position: static !important; display: block !important; }
+.mobile-frame .scroll .reel-card {
+  grid-template-columns: 1fr !important;
+  min-height: 0 !important;
+  padding: 1em;
+  gap: 0.75em;
+}
+.mobile-frame .scroll .reel-player {
+  aspect-ratio: 16/10;
+  max-height: none !important;
+  height: auto !important;
+}
+.mobile-frame .scroll .reel-actions {
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  align-self: auto;
+}
+.mobile-frame .scroll .reel-act { width: 2.5em; height: 2.5em; }
