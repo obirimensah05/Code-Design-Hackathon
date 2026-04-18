@@ -2726,3 +2726,157 @@ h3 + p, h3 + div {
 @media (max-width: 480px) {
   .brand-lockup { height: 26px; }
 }
+
+/* =====================================================================
+   Interactive hover micro-motions (CSS-only, works with motion staggers)
+   ===================================================================== */
+.video-card {
+  transition: transform var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)),
+              box-shadow var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)),
+              border-color var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1));
+  will-change: transform;
+}
+.video-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -16px rgba(15,17,21,0.25), 0 4px 10px rgba(15,17,21,0.08);
+  border-color: var(--border-strong, var(--border));
+}
+.video-card:active { transform: translateY(-1px); transition-duration: 80ms; }
+
+.tool-tile {
+  transition: transform var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)),
+              box-shadow var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)),
+              border-color var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1));
+  will-change: transform;
+}
+.tool-tile:hover { transform: translateY(-2px); }
+
+.book { transition: transform var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)); }
+.book:hover { transform: translateY(-4px); }
+
+.creator-tile { transition: transform var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)); }
+.creator-tile:hover { transform: translateY(-2px); }
+
+.peer-dot { transition: transform var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)); }
+.peer-dot:hover { transform: translateY(-2px) scale(1.02); }
+
+.path-day { transition: transform var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)),
+                        border-color var(--t-fast, 180ms) var(--ease, cubic-bezier(.2,.65,.35,1)); }
+.path-day:hover { transform: translateY(-2px); }
+
+/* Button press feel */
+.btn { transition: transform 120ms var(--ease, cubic-bezier(.2,.65,.35,1)),
+                   background 180ms var(--ease, cubic-bezier(.2,.65,.35,1)),
+                   border-color 180ms var(--ease, cubic-bezier(.2,.65,.35,1)),
+                   color 180ms var(--ease, cubic-bezier(.2,.65,.35,1)); }
+.btn:active { transform: scale(0.97); }
+
+/* Nav-link underline ease */
+.nav-link { transition: color 160ms var(--ease, cubic-bezier(.2,.65,.35,1)); position: relative; }
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 12px; right: 12px; bottom: 6px;
+  height: 2px;
+  background: var(--fg);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 260ms var(--ease, cubic-bezier(.2,.65,.35,1));
+}
+.nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+
+/* Live dot subtle pulse */
+@keyframes mfx-live-pulse {
+  0%   { transform: scale(1);   opacity: 1; }
+  70%  { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.live-dot { position: relative; }
+.live-dot::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: inherit;
+  animation: mfx-live-pulse 1.8s ease-out infinite;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .video-card, .tool-tile, .book, .creator-tile, .peer-dot, .path-day, .btn { transition: none; }
+  .video-card:hover, .tool-tile:hover, .book:hover, .creator-tile:hover, .peer-dot:hover, .path-day:hover { transform: none; }
+  .live-dot::after { animation: none; }
+  .nav-link::after { transition: none; }
+}
+
+/* =====================================================================
+   Final spacing pass — ensure every heading + subtitle pair breathes,
+   across browse, tool, leaderboard, video, onboarding, and mobile views.
+   ===================================================================== */
+
+/* Section-heads with an eyebrow above the title should have consistent gap */
+.section-head .eyebrow { display: block; margin-bottom: 10px; }
+.section-head h2, .section-head .h-2 { margin-bottom: 4px; }
+.section-head > div > .dim + .eyebrow { margin-top: 10px; }
+
+/* Anywhere .eyebrow sits directly above an h1/h2/h3/h-* */
+.eyebrow + h1, .eyebrow + h2, .eyebrow + h3,
+.eyebrow + .h-display, .eyebrow + .h-1, .eyebrow + .h-2, .eyebrow + .h-3 {
+  margin-top: 0;
+}
+
+/* Hero blocks: title → paragraph always gets at least 12px gap */
+.hero h1 + p, .hero h1 + .lead,
+.hero .h-1 + p, .hero .h-1 + .lead,
+.hero .h-display + p, .hero .h-display + .lead {
+  margin-top: 12px;
+}
+
+/* Tool-hero (detail page) */
+.tool-hero .eyebrow { margin-bottom: 12px; }
+.tool-hero h1 { margin-bottom: 16px; }
+.tool-hero h1 + p, .tool-hero h1 + .muted, .tool-hero h1 + .lead { margin-top: 0; }
+
+/* Video page: title + creator row */
+.video-page h1 { margin-bottom: 14px; }
+.video-page h1 + .meta-row, .video-page h1 + p { margin-top: 6px; }
+
+/* Leaderboard title block */
+.leaderboard-head h1 { margin-bottom: 12px; }
+.leaderboard-head h1 + p, .leaderboard-head h1 + .muted { margin-top: 0; }
+
+/* Onboarding step headers: h-1 + helper text */
+.onboard-form .h-1 { margin-bottom: 10px; }
+.onboard-form .h-1 + p, .onboard-form .h-1 + .muted { margin-top: 0; }
+
+/* ShareKnowledge / creator form step headers inside the step card */
+.card h2.h-2 { margin-bottom: 6px; }
+.card h2.h-2 + p, .card h2.h-2 + .muted { margin-top: 2px; }
+.card .h-2 + p { line-height: 1.5; }
+
+/* Field + goals grid labels above a grid need breathing */
+.pv-card--padded h2 + p { margin-top: 2px; margin-bottom: 16px; }
+
+/* Path hero today's lesson h1 */
+.path-today h1 { margin-bottom: 18px; }
+.path-today .eyebrow + h1 { margin-top: 6px; }
+
+/* Feed rail h1 + subtitle */
+.feed-rail h1 { margin-bottom: 10px; }
+.feed-rail h1 + p, .feed-rail h1 + .muted { margin-top: 0; margin-bottom: 20px; }
+
+/* Library hero */
+.lib-hero h1 { margin-bottom: 16px; }
+.lib-hero h1 + p, .lib-hero h1 + .lead { margin-top: 0; }
+
+/* Shelf head: the title should NEVER touch the em-dash meta below */
+.shelf-head h2, .shelf-head .h-2 { margin-bottom: 6px; }
+.shelf-head h2 + .dim, .shelf-head .h-2 + .dim { margin-top: 2px; }
+
+/* Mobile: tighter overall but never touching */
+@media (max-width: 720px) {
+  .section-head .eyebrow { margin-bottom: 8px; }
+  .hero h1 + p, .hero h1 + .lead,
+  .hero .h-1 + p, .hero .h-1 + .lead,
+  .hero .h-display + p, .hero .h-display + .lead { margin-top: 10px; }
+  .onboard-form .h-1 { margin-bottom: 8px; }
+  .feed-rail h1 + p, .feed-rail h1 + .muted { margin-bottom: 16px; }
+}

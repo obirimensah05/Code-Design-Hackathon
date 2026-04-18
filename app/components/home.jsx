@@ -226,7 +226,7 @@ function HomeFeed({ profile, goto, onWatch, points, gamification }) {
       <div className="shell">
         <div className="feed-layout">
           {/* LEFT rail: context */}
-          <aside className="feed-rail">
+          <Reveal as="aside" className="feed-rail" y={12}>
             <div className="eyebrow mb-16">For you · {fieldName}</div>
             <h1 className="h-1" style={{fontSize: 32, marginBottom: 12, letterSpacing: "-0.025em"}}>
               Peer tips, one at a time.
@@ -235,10 +235,10 @@ function HomeFeed({ profile, goto, onWatch, points, gamification }) {
               Snackable 3-minute videos from people doing your job. Swipe to skip. Tap to go deep.
             </p>
             <HeroStats profile={profile} points={points} gamification={gamification} fieldName={fieldName} />
-          </aside>
+          </Reveal>
 
           {/* CENTER: vertical reel */}
-          <div className="reel">
+          <Stagger className="reel" stagger={0.05} y={20}>
             {feedVideos.map((vv, idx) => {
               const vtool = D.tool(vv.toolId);
               const vcreator = D.creator(vv.creatorId);
@@ -287,12 +287,12 @@ function HomeFeed({ profile, goto, onWatch, points, gamification }) {
                 </div>
               );
             })}
-          </div>
+          </Stagger>
 
           {/* RIGHT rail: discussion on active video */}
-          <aside className="feed-rail right">
+          <Reveal as="aside" className="feed-rail right" y={12} delay={0.1}>
             <div className="eyebrow mb-16">Discussion · {tool.name}</div>
-            <div className="row-gap-12">
+            <Stagger className="row-gap-12" stagger={0.06} y={10}>
               {[
                 { who: creator.initials, name: creator.name, t: "Full walkthrough in the Intermediate path — link in comments.", time: "2h" },
                 { who: "AP", name: "Anna Park", t: `The prompt at 3:45 saved me 2 hrs today in ${fieldName.toLowerCase()}.`, time: "5h" },
@@ -307,9 +307,9 @@ function HomeFeed({ profile, goto, onWatch, points, gamification }) {
                   <div style={{fontSize: 13, color: "var(--fg-2)"}}>{c.t}</div>
                 </div>
               ))}
-            </div>
+            </Stagger>
             <textarea className="textarea mt-16" placeholder="Reply to this tip…" rows={2} />
-          </aside>
+          </Reveal>
         </div>
 
         <div style={{height: 96}} />
