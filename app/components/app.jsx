@@ -65,7 +65,10 @@ function App() {
       setPoints(p => p + 15);
       setPillFlash(true);
       setTimeout(() => setPillFlash(false), 1200);
-      setToasts(ts => [...ts, { id: Math.random().toString(36), msg: "Practice complete", pts: 15, accent: true }]);
+      const tid = Math.random().toString(36).slice(2);
+      setToasts(ts => [...ts, { id: tid, msg: "Practice complete", pts: 15, accent: true }]);
+      setTimeout(() => setToasts(t => t.map(x => x.id === tid ? { ...x, out: true } : x)), 5000);
+      setTimeout(() => setToasts(t => t.filter(x => x.id !== tid)), 5300);
       return { ...prev, [v.id]: Date.now() };
     });
   }, []);
@@ -120,8 +123,9 @@ function App() {
   const toast = useCallback((opts) => {
     const id = Math.random().toString(36).slice(2);
     setToasts(t => [...t, { id, ...opts }]);
-    setTimeout(() => setToasts(t => t.map(x => x.id === id ? {...x, out: true} : x)), 2400);
-    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 2700);
+    // Hold visible for 5s, then slide out over 300ms before removal
+    setTimeout(() => setToasts(t => t.map(x => x.id === id ? {...x, out: true} : x)), 5000);
+    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 5300);
   }, []);
 
   const flashPill = useCallback(() => {
@@ -170,6 +174,7 @@ function App() {
     return (
       <>
         <Onboarding onDone={(p) => { setProfile(p); setRoute("home"); }} />
+        <SiteFooter />
         {tweaksBlock}
       </>
     );
@@ -195,6 +200,7 @@ function App() {
       <ScrollBar />
       <TopNav route={route} goto={goto} points={points} pillFlash={pillFlash} profile={activeProfile} onProfile={() => goto("profile")} gamification={tweaks.gamification} />
       {page}
+      <SiteFooter />
       <ToastStack toasts={toasts} />
       <LangdockPanel open={!!langdockVideo} video={langdockVideo} onClose={closeLangdock} onComplete={onLangdockComplete} />
       {tweaksBlock}
@@ -723,6 +729,42 @@ function MobileView({ profile, route, routeParams, goto, onWatch, points, simWat
   return null;
 }
 
-
+// ---- Site footer (LinkedIn credit) ----
+function SiteFooter() {
+  return (
+    <footer className="site-footer" role="contentinfo">
+      <div className="shell site-footer__inner">
+        <span className="site-footer__brand mono">Prompt University</span>
+        <span className="site-footer__sep" aria-hidden>·</span>
+        <span className="site-footer__by">
+          Built by{" "}
+          <a
+            className="site-footer__link"
+            href="https://www.linkedin.com/in/obiri-mensah-66092a182/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Obiri Mensah
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
+            </svg>
+          </a>
+        </span>
+        <a
+          className="site-footer__li"
+          href="https://www.linkedin.com/in/obiri-mensah-66092a182/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Obiri Mensah on LinkedIn"
+          title="Obiri Mensah on LinkedIn"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5.001zM3 9h4v12H3V9zm7 0h3.8v1.7h.1c.5-.9 1.8-1.9 3.7-1.9 4 0 4.7 2.6 4.7 6V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4V9z" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  );
+}
 
 export default App;
