@@ -150,12 +150,6 @@ function App() {
     toast({ msg: "Simulated watch", pts: 10, accent: true, icon: <Icon.bolt size={14}/> });
   }, [toast, flashPill]);
 
-  const resetDemo = () => {
-    if (!confirm("Reset onboarding & progress?")) return;
-    localStorage.clear();
-    location.reload();
-  };
-
   // ----- Render
   // Persistent tweaks block — always rendered, floats fixed bottom-right.
   const tweaksBlock = (
@@ -187,11 +181,12 @@ function App() {
   else if (route === "leaderboard") page = <Leaderboard profile={activeProfile} points={points} simWatch={simWatch} />;
   else if (route === "learning") page = <Learning profile={activeProfile} goto={goto} watched={watched} />;
   else if (route === "share") page = <ShareKnowledge goto={goto} profile={activeProfile} />;
+  else if (route === "profile") page = <Profile profile={profile} setProfile={setProfile} points={points} watched={watched} tweaks={tweaks} setTweaks={persistTweaks} />;
   else page = <Home profile={activeProfile} goto={goto} onWatch={onWatch} points={points} variant={tweaks.homeVariant} gamification={tweaks.gamification} />;
 
   const content = (
     <div className="app">
-      <TopNav route={route} goto={goto} points={points} pillFlash={pillFlash} profile={activeProfile} onProfile={resetDemo} gamification={tweaks.gamification} />
+      <TopNav route={route} goto={goto} points={points} pillFlash={pillFlash} profile={activeProfile} onProfile={() => goto("profile")} gamification={tweaks.gamification} />
       {page}
       <ToastStack toasts={toasts} />
       <LangdockPanel open={!!langdockVideo} video={langdockVideo} onClose={closeLangdock} onComplete={onLangdockComplete} />
@@ -239,6 +234,204 @@ function App() {
   }
 
   return content;
+}
+
+// ---- Profile (editable, local-only, no backend) ----
+function Profile({ profile, setProfile, points, watched, tweaks, setTweaks }) {
+  const D = PV_DATA;
+  const [form, setForm] = useState(profile);
+  const [saved, setSaved] = useState(false);
+  const savedTimeoutRef = useRef(null);
+
+  useEffect(() => { setForm(profile); }, [profile]);
+  useEffect(() => () => { if (savedTimeoutRef.current) clearTimeout(savedTimeoutRef.current); }, []);
+
+  const dirty = JSON.stringify(form) !== JSON.stringify(profile);
+
+  const save = () => {
+    const initials = (form.name || "").split(/\s+/).map(s => s[0]).slice(0, 2).join("").toUpperCase() || profile.initials;
+    setProfile({ ...form, initials });
+    setSaved(true);
+    if (savedTimeoutRef.current) clearTimeout(savedTimeoutRef.current);
+    savedTimeoutRef.current = setTimeout(() => setSaved(false), 2500);
+  };
+
+  const toggleGoal = (g) => {
+    const has = form.goals?.includes(g);
+    setForm({ ...form, goals: has ? form.goals.filter(x => x !== g) : [...(form.goals || []), g] });
+  };
+
+  const watchedCount = Object.keys(watched || {}).length;
+
+  return (
+    <div className="route">
+      <div className="shell">
+        <div className="hero" style={{padding: "40px 0 24px", gridTemplateColumns: "1fr"}}>
+          <div>
+            <div className="eyebrow mb-16">Your profile</div>
+            <h1 className="h-1" style={{fontSize: 44}}>{profile.name}</h1>
+            <p className="muted" style={{fontSize: 16, maxWidth: 540}}>
+              Tweak what we know about you. Saved locally — nothing leaves your browser.
+            </p>
+          </div>
+        </div>
+
+        <div className="profile-grid">
+          {/* Left: editable form */}
+          <div className="profile-col">
+            <div className="card profile-card">
+              <div className="profile-card-head">
+                <div>
+                  <h2 className="h-2">Identity</h2>
+                  <div className="dim mono">name, email, role</div>
+                </div>
+                <div className="avatar-xl">{profile.initials}</div>
+              </div>
+              <div className="row-gap-16">
+                <div className="row-gap-8">
+                  <label className="eyebrow">Name</label>
+                  <input className="input" value={form.name || ""} onChange={e => setForm({...form, name: e.target.value})} placeholder="Your name" />
+                </div>
+                <div className="row-gap-8">
+                  <label className="eyebrow">Email</label>
+                  <input className="input" value={form.email || ""} onChange={e => setForm({...form, email: e.target.value})} placeholder="you@work.com" />
+                </div>
+                <div className="row-gap-8">
+                  <label className="eyebrow">Role / Title</label>
+                  <input className="input" value={form.role || ""} onChange={e => setForm({...form, role: e.target.value})} placeholder="e.g. Marketing Manager" />
+                </div>
+              </div>
+            </div>
+
+            <div className="card profile-card">
+              <div className="profile-card-head">
+                <div>
+                  <h2 className="h-2">Field</h2>
+                  <div className="dim mono">how we tailor your home</div>
+                </div>
+              </div>
+              <div className="field-grid" style={{gridTemplateColumns: "repeat(2, 1fr)"}}>
+                {D.FIELDS.map(f => (
+                  <div key={f.id} className={`opt ${form.field === f.id ? "sel" : ""}`} onClick={() => setForm({...form, field: f.id})}>
+                    <span style={{fontFamily: "var(--mono)", fontSize: 13, opacity: 0.6, width: 14}}>{f.icon}</span>
+                    {f.name}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="card profile-card">
+              <div className="profile-card-head">
+                <div>
+                  <h2 className="h-2">Goals</h2>
+                  <div className="dim mono">pick everything that fits</div>
+                </div>
+              </div>
+              <div className="field-grid">
+                {D.GOALS.map(g => {
+                  const sel = form.goals?.includes(g);
+                  return (
+                    <div key={g} className={`opt ${sel ? "sel" : ""}`} onClick={() => toggleGoal(g)}>
+                      <div className="check">{sel && <Icon.check size={11}/>}</div>
+                      {g}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="profile-actions">
+              <button className="btn btn-ghost" onClick={() => setForm(profile)} disabled={!dirty}>
+                Discard changes
+              </button>
+              <div className="profile-save-row">
+                {saved && <span className="profile-saved">Saved <Icon.check size={12}/></span>}
+                <button className="btn btn-primary btn-lg" onClick={save} disabled={!dirty}>
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: stats + appearance + danger zone */}
+          <div className="profile-col">
+            <div className="card profile-card">
+              <div className="profile-card-head">
+                <div>
+                  <h2 className="h-2">Your activity</h2>
+                  <div className="dim mono">so far</div>
+                </div>
+              </div>
+              <div className="stat-strip" style={{gridTemplateColumns: "1fr 1fr 1fr"}}>
+                <div className="stat"><div className="num tnum">{points}</div><div className="lbl">Points</div></div>
+                <div className="stat"><div className="num tnum">{watchedCount}</div><div className="lbl">Watched</div></div>
+                <div className="stat"><div className="num tnum">0</div><div className="lbl">Shared</div></div>
+              </div>
+            </div>
+
+            <div className="card profile-card">
+              <div className="profile-card-head">
+                <div>
+                  <h2 className="h-2">Appearance</h2>
+                  <div className="dim mono">how it looks for you</div>
+                </div>
+              </div>
+              <div className="row-gap-12">
+                <label className="eyebrow">Theme</label>
+                <div className="seg" style={{border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", padding: 2, display: "flex"}}>
+                  {["light", "dark"].map(t => (
+                    <button
+                      key={t}
+                      onClick={() => setTweaks({ ...tweaks, theme: t })}
+                      style={{
+                        flex: 1,
+                        background: tweaks.theme === t ? "var(--fg)" : "transparent",
+                        color: tweaks.theme === t ? "var(--bg)" : "var(--fg-2)",
+                        border: "none",
+                        padding: "8px 12px",
+                        cursor: "pointer",
+                        borderRadius: 4,
+                        fontSize: 13,
+                        fontWeight: 500,
+                        textTransform: "capitalize",
+                      }}
+                    >{t}</button>
+                  ))}
+                </div>
+                <div className="dim mono" style={{fontSize: 11.5, marginTop: 4}}>
+                  More visual controls live in the Tweaks panel (bottom right).
+                </div>
+              </div>
+            </div>
+
+            <div className="card profile-card danger">
+              <div className="profile-card-head">
+                <div>
+                  <h2 className="h-2">Reset</h2>
+                  <div className="dim mono">wipe local state and start over</div>
+                </div>
+              </div>
+              <div className="dim" style={{fontSize: 13, marginBottom: 16}}>
+                This clears your profile, watched history, points, and ratings. Everything is stored in your browser only — there's no server copy.
+              </div>
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  if (!confirm("Reset everything? This can't be undone.")) return;
+                  localStorage.clear();
+                  location.reload();
+                }}
+              >
+                Reset demo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style={{height: 96}} />
+      </div>
+    </div>
+  );
 }
 
 // ---- Two extra screens to keep the app feeling whole ----

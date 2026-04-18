@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
 
-const { useState: useStateW, useEffect: useEffectW } = React;
+const { useState } = React;
 
-function Tweaks({ tweaks, setTweaks, onClose }) {
+function Tweaks({ tweaks, setTweaks }) {
+  const [collapsed, setCollapsed] = useState(false);
   const set = (k, v) => setTweaks({ ...tweaks, [k]: v });
 
   const swatches = [
@@ -36,11 +37,30 @@ function Tweaks({ tweaks, setTweaks, onClose }) {
     { id: "ops",       label: "Ops"       },
   ];
 
+  if (collapsed) {
+    return (
+      <button
+        className="tweaks-bubble"
+        onClick={() => setCollapsed(false)}
+        aria-label="Open tweaks panel"
+        title="Open tweaks"
+      >
+        <span className="tweaks-bubble-dot" aria-hidden />
+        Tweaks
+      </button>
+    );
+  }
+
   return (
-    <div className="tweaks-panel">
+    <div className="tweaks-panel" role="region" aria-label="Design tweaks">
       <div className="tweaks-head">
         <b>Tweaks</b>
-        <button className="btn btn-ghost btn-sm" onClick={onClose}>✕</button>
+        <button
+          className="btn btn-ghost btn-sm"
+          onClick={() => setCollapsed(true)}
+          aria-label="Collapse tweaks panel"
+          title="Collapse"
+        >✕</button>
       </div>
       <div className="tweaks-body">
         <div className="row">
