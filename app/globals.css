@@ -3088,3 +3088,140 @@ h3, .h-3       { font-size: clamp(1rem, 0.95rem + 0.6vw, 1.2rem); }
     padding-right: max(clamp(14px, 4vw, 32px), env(safe-area-inset-right));
   }
 }
+
+/* =====================================================================
+   DEFINITIVE overlap fix — kills text-on-text bunching across the app.
+   ROOT CAUSE: a prior rule set line-height:1.05 on hero h1, and inline
+   margin:0 on profile hero h1 stripped the bottom margin. The tight
+   line-height caused glyphs to visually extend past their line-box;
+   the next sibling paragraph (with margin-top:0 per our earlier
+   normalizer) flowed at the end of the line-box — INSIDE the glyph.
+   Same pattern inside .pv-card--padded.
+
+   Two-part fix:
+   1. Normalize line-heights so no heading reports a box smaller than
+      its own glyph.
+   2. Force hero text columns + ported card bodies into flex-column
+      with a guaranteed gap, so margin collapsing / inline margin:0
+      can never cause overlap.
+   ===================================================================== */
+
+/* 1. Line-heights never tighter than the glyph */
+h1, h2, h3, .h-1, .h-2, .h-3, .h-display,
+.hero h1, .tool-hero h1, .path-today h1, .lib-hero h1,
+.feed-rail h1, .profile-hero h1 {
+  line-height: 1.18 !important;
+}
+.h-display { line-height: 1.1 !important; }
+
+/* 2. Hero text columns — the one most likely to break */
+.hero > div:not(.path-card):not(.path-gauge):not(.stat-strip),
+.profile-hero > div:first-child,
+.tool-hero > div:first-child,
+.lib-hero > div:first-child,
+.path-today {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+/* When flex-column is in play, explicit margins on children become
+   redundant and can cause compounding gaps — zero them so gap controls. */
+.hero > div:not(.path-card):not(.path-gauge):not(.stat-strip) > *,
+.profile-hero > div:first-child > *,
+.tool-hero > div:first-child > *,
+.lib-hero > div:first-child > *,
+.path-today > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* The CTAs row still needs a little extra breathing room */
+.hero .ctas, .tool-hero .ctas, .lib-hero .ctas, .path-today .ctas {
+  margin-top: 6px !important;
+}
+
+/* 3. Ported cards — same pattern inside .pv-card--padded */
+.pv-card--padded {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pv-card--padded > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.pv-card--padded > h2 + p,
+.pv-card--padded > h2 + .dim,
+.pv-card--padded > h2 + .muted {
+  /* Slightly more breathing after the section title */
+  margin-bottom: 4px !important;
+}
+.pv-card--padded .field-grid,
+.pv-card--padded .row-gap-16,
+.pv-card--padded .row-gap-12,
+.pv-card--padded .theme-radio {
+  margin-top: 6px;
+}
+
+/* 4. Also handle section-head blocks that have the same structure */
+.section-head > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.section-head > div:first-child > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 5. Feed rails (left + right) */
+.feed-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.feed-rail > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.feed-rail .stat-strip { margin-top: 6px; }
+
+/* 6. Shelf heads */
+.shelf-head > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.shelf-head > div:first-child > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 7. Onboarding form title blocks */
+.onboard-form .row-gap-24 > div:first-child,
+.onboard-form .row-gap-12 > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.onboard-form .row-gap-24 > div:first-child > *,
+.onboard-form .row-gap-12 > div:first-child > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 8. Mobile: slightly smaller gaps so hero doesn't feel loose on phones */
+@media (max-width: 560px) {
+  .hero > div:not(.path-card):not(.path-gauge):not(.stat-strip),
+  .profile-hero > div:first-child,
+  .tool-hero > div:first-child,
+  .lib-hero > div:first-child,
+  .path-today {
+    gap: 10px;
+  }
+  .pv-card--padded { gap: 8px; }
+  .feed-rail { gap: 10px; }
+}
