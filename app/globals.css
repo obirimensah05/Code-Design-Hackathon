@@ -3147,3 +3147,31 @@ h3, .h-3       { font-size: clamp(1rem, 0.95rem + 0.6vw, 1.2rem); }
   align-self: auto;
 }
 .mobile-frame .scroll .reel-act { width: 2.5em; height: 2.5em; }
+
+/* =====================================================================
+   Tweaks corner snapping — smooth transition when the user drops it
+   into a new corner, no transition while dragging (instant tracking).
+   ===================================================================== */
+.tweaks-panel,
+.tweaks-bubble {
+  transition: top var(--t-med) var(--ease),
+              left var(--t-med) var(--ease),
+              right var(--t-med) var(--ease),
+              bottom var(--t-med) var(--ease),
+              box-shadow var(--t-fast) var(--ease),
+              transform var(--t-fast) var(--ease);
+}
+.tweaks-panel.is-dragging,
+.tweaks-bubble.is-dragging {
+  transition: box-shadow var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+/* Bigger shadow while grabbed so user sees it's attached to their pointer */
+.tweaks-panel.is-dragging { box-shadow: 0 32px 64px -16px rgba(15,17,21,0.28), 0 4px 16px rgba(15,17,21,0.1); }
+.tweaks-bubble.is-dragging { transform: scale(1.04); box-shadow: 0 14px 28px -8px rgba(15,17,21,0.35); }
+
+/* The bubble arrow direction flips depending on corner so it points out
+   of the safe area, not into content. */
+.tweaks-bubble.corner-tl,
+.tweaks-bubble.corner-bl { padding-left: 14px; padding-right: 16px; }
+.tweaks-bubble.corner-tr,
+.tweaks-bubble.corner-br { padding-left: 16px; padding-right: 14px; }
