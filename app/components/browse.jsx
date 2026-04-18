@@ -75,7 +75,7 @@ function Browse({ onWatch, goto, profile }) {
         </div>
         {filtered.length === 0 && (
           <div className="card" style={{padding: 48, textAlign: "center", color: "var(--fg-3)"}}>
-            No videos match. Try widening your filters.
+            Nothing matches those filters — try removing one to see more.
           </div>
         )}
         <div style={{height: 96}} />

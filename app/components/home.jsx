@@ -99,7 +99,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
               <em>{profile.name.split(" ")[0]}.</em>
             </h1>
             <p className="lead">
-              Your personalized vault — the exact AI tools, skill levels, and creators tailored for {fieldName.toLowerCase()}.
+              The exact AI tools, skill levels, and peers shaped around your day in {fieldName.toLowerCase()}.
             </p>
             <div className="ctas">
               <button className="btn btn-primary btn-lg" onClick={() => goto("learning")}>

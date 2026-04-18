@@ -28,7 +28,7 @@ function Onboarding({ onDone }) {
   const steps = [
     {
       title: "Welcome.",
-      sub: "Let's set up your vault. Two minutes.",
+      sub: "Let's set up your space. Two minutes — you can change anything later.",
       body: (
         <div className="row-gap-24">
           <div className="row-gap-12">
@@ -130,7 +130,7 @@ function Onboarding({ onDone }) {
           <span className="brand-name" style={{fontSize: 18}}><b>Prompt</b>University</span>
         </div>
         <div style={{position: "relative", zIndex: 1}}>
-          <div className="eyebrow mb-16">Your vault, in 5 questions</div>
+          <div className="eyebrow mb-16">Your space, in 5 questions</div>
           <h1 className="h-display" style={{fontSize: 44, marginBottom: 16}}>
             Master AI tools. <em style={{color: "var(--accent-deep)", fontStyle: "normal"}}>Your way.</em>
           </h1>
@@ -164,7 +164,7 @@ function Onboarding({ onDone }) {
           {step > 0 && <button className="btn btn-ghost" onClick={back}>← Back</button>}
           <div style={{flex: 1}} />
           <button className="btn btn-primary btn-lg" onClick={next}>
-            {step === total - 1 ? "Enter the vault" : "Continue"} <Icon.arrow size={14}/>
+            {step === total - 1 ? "Start exploring" : "Continue"} <Icon.arrow size={14}/>
           </button>
         </div>
       </div>

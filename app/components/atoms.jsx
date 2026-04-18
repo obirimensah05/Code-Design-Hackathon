@@ -97,7 +97,7 @@ function VideoCard({ video, onClick }) {
 // --- Toast system ---
 function ToastStack({ toasts }) {
   return (
-    <div className="toast-stack">
+    <div className="toast-stack" role="status" aria-live="polite" aria-atomic="false">
       {toasts.map(t => (
         <div key={t.id} className={`toast ${t.accent ? "toast-accent" : ""} ${t.out ? "out" : ""}`}>
           {t.icon}
@@ -118,34 +118,67 @@ function TopNav({ route, goto, points, pillFlash, onProfile, profile, gamificati
     { id: "leaderboard", label: "Leaderboard" },
     { id: "share", label: "Share Knowledge" },
   ];
+  const keyActivate = (fn) => (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); }
+  };
   return (
-    <div className="topnav">
+    <nav className="topnav" aria-label="Primary">
       <div className="shell topnav-inner">
-        <div className="brand" onClick={() => goto("home")}>
+        <div
+          className="brand"
+          role="button"
+          tabIndex={0}
+          aria-label="Go to home"
+          onClick={() => goto("home")}
+          onKeyDown={keyActivate(() => goto("home"))}
+        >
           <PVLogo size={26} />
           <span className="brand-name"><b>Prompt</b>University</span>
         </div>
-        <div className="nav-links">
-          {items.map(it => (
-            <div key={it.id} className={`nav-link ${route === it.id ? "active" : ""}`} onClick={() => goto(it.id)}>
-              {it.label}
-            </div>
-          ))}
+        <div className="nav-links" role="list">
+          {items.map(it => {
+            const active = route === it.id;
+            return (
+              <div
+                key={it.id}
+                role="link"
+                tabIndex={0}
+                aria-current={active ? "page" : undefined}
+                className={`nav-link ${active ? "active" : ""}`}
+                onClick={() => goto(it.id)}
+                onKeyDown={keyActivate(() => goto(it.id))}
+              >
+                {it.label}
+              </div>
+            );
+          })}
         </div>
         <div className="nav-right">
           {gamification !== "subtle" && (
-            <div className={`points-pill ${pillFlash ? "flash" : ""} ${gamification === "heavy" ? "heavy" : ""}`} title="Your points this week">
-              <span className="dot" />
+            <div
+              className={`points-pill ${pillFlash ? "flash" : ""} ${gamification === "heavy" ? "heavy" : ""}`}
+              title="Your points this week"
+              aria-label={`${points} points this week`}
+            >
+              <span className="dot" aria-hidden />
               <span className="tnum">{points}</span>
-              <span style={{color: "var(--fg-3)", marginLeft: 2}}>pts</span>
+              <span style={{color: "var(--fg-3)", marginLeft: 2}} aria-hidden>pts</span>
             </div>
           )}
-          <div className="avatar" onClick={onProfile} title={profile?.name || "Profile"}>
+          <div
+            className="avatar"
+            role="button"
+            tabIndex={0}
+            aria-label={profile?.name ? `${profile.name} — open profile` : "Open profile"}
+            title={profile?.name || "Profile"}
+            onClick={onProfile}
+            onKeyDown={keyActivate(onProfile)}
+          >
             {profile?.initials || "JR"}
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
 
