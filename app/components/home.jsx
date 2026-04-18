@@ -2,6 +2,7 @@
 import React from 'react';
 import { PV_DATA } from './data';
 import { Icon, VideoCard, Verified } from './atoms';
+import { Reveal, Stagger, CountUp, Ring, ProgressBar } from './motion-fx';
 
 const { useState: useStateH, useMemo: useMemoH, useEffect: useEffectH, useRef: useRefH } = React;
 
@@ -17,31 +18,31 @@ const { useState: useStateH, useMemo: useMemoH, useEffect: useEffectH, useRef: u
 function HeroStats({ profile, points, gamification, fieldName }) {
   if (gamification === "subtle") {
     return (
-      <div className="stat-strip subtle">
+      <Stagger className="stat-strip subtle" stagger={0.07}>
         <div className="stat">
-          <div className="num tnum">12</div>
+          <div className="num tnum"><CountUp value={12} duration={1.1} /></div>
           <div className="lbl">Videos watched</div>
         </div>
         <div className="stat">
-          <div className="num tnum">4<small>wk</small></div>
+          <div className="num tnum"><CountUp value={4} duration={0.9} /><small>wk</small></div>
           <div className="lbl">Streak</div>
         </div>
         <div className="stat">
-          <div className="num tnum">3</div>
+          <div className="num tnum"><CountUp value={3} duration={0.8} /></div>
           <div className="lbl">Active paths</div>
         </div>
         <div className="stat">
-          <div className="num tnum">62<small>%</small></div>
+          <div className="num tnum"><CountUp value={62} duration={1.2} /><small>%</small></div>
           <div className="lbl">Avg completion</div>
         </div>
-      </div>
+      </Stagger>
     );
   }
   if (gamification === "heavy") {
     return (
-      <div className="stat-strip heavy">
+      <Stagger className="stat-strip heavy" stagger={0.07}>
         <div className="stat">
-          <div className="num tnum" style={{color: "var(--accent-deep)"}}>{points}<small>pts</small></div>
+          <div className="num tnum" style={{color: "var(--accent-deep)"}}><CountUp value={points} duration={1.3} /><small>pts</small></div>
           <div className="lbl">⚡ This week</div>
         </div>
         <div className="stat">
@@ -49,23 +50,23 @@ function HeroStats({ profile, points, gamification, fieldName }) {
           <div className="lbl">🏆 {fieldName} rank</div>
         </div>
         <div className="stat">
-          <div className="num tnum">12</div>
+          <div className="num tnum"><CountUp value={12} duration={1.1} /></div>
           <div className="lbl">🎥 Watched</div>
         </div>
         <div className="stat">
-          <div className="num tnum">4<small>🔥</small></div>
+          <div className="num tnum"><CountUp value={4} duration={0.9} /><small>🔥</small></div>
           <div className="lbl">Week streak</div>
         </div>
-      </div>
+      </Stagger>
     );
   }
   return (
-    <div className="stat-strip">
-      <div className="stat"><div className="num tnum">{points}<small>pts</small></div><div className="lbl">This week</div></div>
+    <Stagger className="stat-strip" stagger={0.07}>
+      <div className="stat"><div className="num tnum"><CountUp value={points} duration={1.3} /><small>pts</small></div><div className="lbl">This week</div></div>
       <div className="stat"><div className="num tnum">#2<small>/40</small></div><div className="lbl">{fieldName} rank</div></div>
-      <div className="stat"><div className="num tnum">12</div><div className="lbl">Videos watched</div></div>
-      <div className="stat"><div className="num tnum">4<small>wk</small></div><div className="lbl">Streak</div></div>
-    </div>
+      <div className="stat"><div className="num tnum"><CountUp value={12} duration={1.1} /></div><div className="lbl">Videos watched</div></div>
+      <div className="stat"><div className="num tnum"><CountUp value={4} duration={0.9} /><small>wk</small></div><div className="lbl">Streak</div></div>
+    </Stagger>
   );
 }
 
@@ -111,7 +112,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
             </div>
           </div>
 
-          <div className="path-card">
+          <Reveal className="path-card" y={16} delay={0.1}>
             <div className="path-head">
               <div className="tool-mark">CG</div>
               <div>
@@ -125,11 +126,11 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
                   <div style={{fontWeight: 500}}>{p.tool}</div>
                   <div className="dim mono" style={{fontSize: 11}}>{p.level}</div>
                 </div>
-                <div className="progress-bar"><span style={{width: `${p.pct}%`}} /></div>
-                <div className="pct tnum">{p.pct}%</div>
+                <div className="progress-bar"><ProgressBar value={p.pct} delay={0.25 + i * 0.08} /></div>
+                <div className="pct tnum"><CountUp value={p.pct} duration={0.9} suffix="%" /></div>
               </div>
             ))}
-          </div>
+          </Reveal>
         </section>
 
         <HeroStats profile={profile} points={points} gamification={gamification} fieldName={fieldName} />
@@ -142,7 +143,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
             </div>
             <div className="head-meta">{recommended.length} tools</div>
           </div>
-          <div className="tool-grid">
+          <Stagger className="tool-grid" stagger={0.05} y={18}>
             {recommended.map(t => (
               <div key={t.id} className="tool-tile" onClick={() => goto("tool", { toolId: t.id })}>
                 <div className="tool-mark">{t.mark}</div>
@@ -155,7 +156,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
                 </div>
               </div>
             ))}
-          </div>
+          </Stagger>
         </section>
 
         <div className="spacer" />
@@ -168,11 +169,11 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
             </div>
             <button className="btn btn-ghost btn-sm" onClick={() => goto("browse")}>See all <Icon.arrow size={12}/></button>
           </div>
-          <div className="video-grid">
+          <Stagger className="video-grid" stagger={0.06} y={18}>
             {trending.slice(0, 4).map(v => (
               <VideoCard key={v.id} video={v} onClick={(vv) => onWatch(vv)} />
             ))}
-          </div>
+          </Stagger>
         </section>
 
         <div className="spacer" />
@@ -185,7 +186,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
             </div>
             <div className="head-meta">Updated daily</div>
           </div>
-          <div className="creator-strip">
+          <Stagger className="creator-strip" stagger={0.04} y={14}>
             {topCreators.map(c => (
               <div key={c.id} className="creator-tile">
                 <div className="ca">{c.initials}</div>
@@ -195,7 +196,7 @@ function HomeEditorial({ profile, goto, onWatch, points, gamification }) {
                 </div>
               </div>
             ))}
-          </div>
+          </Stagger>
         </section>
 
         <div style={{height: 96}} />
@@ -371,7 +372,7 @@ function HomeLibrary({ profile, goto, onWatch, points, gamification }) {
                 {"—".repeat(Math.max(2, 20 - shelf.title.length))}
               </div>
             </div>
-            <div className="shelf-row">
+            <Stagger className="shelf-row" stagger={0.04} y={14}>
               {shelf.tools.map(t => (
                 <div key={t.id} className="book" onClick={() => goto("tool", { toolId: t.id })}
                      style={{"--book-hue": (t.id.charCodeAt(0) * 13) % 360}}>
@@ -392,7 +393,7 @@ function HomeLibrary({ profile, goto, onWatch, points, gamification }) {
                   </div>
                 </div>
               ))}
-            </div>
+            </Stagger>
           </section>
         ))}
 
@@ -465,26 +466,20 @@ function HomePath({ profile, goto, onWatch, points, gamification }) {
             </div>
           </div>
 
-          <div className="path-gauge">
+          <Reveal className="path-gauge" y={16}>
             <div className="eyebrow mb-16">Your week</div>
             <div className="gauge-ring">
-              <svg viewBox="0 0 120 120" width="120" height="120">
-                <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg-sunk)" strokeWidth="8"/>
-                <circle cx="60" cy="60" r="50" fill="none" stroke="var(--accent-deep)" strokeWidth="8"
-                        strokeLinecap="round" strokeDasharray="314" strokeDashoffset="100"
-                        transform="rotate(-90 60 60)"/>
-              </svg>
-              <div className="gauge-center">
-                <div className="tnum mono" style={{fontSize: 28, fontWeight: 600}}>4<span className="dim" style={{fontSize: 14}}>/5</span></div>
+              <Ring size={120} stroke={8} value={4} total={5} duration={1.5}>
+                <div className="tnum mono" style={{fontSize: 28, fontWeight: 600}}><CountUp value={4} duration={1.2} /><span className="dim" style={{fontSize: 14}}>/5</span></div>
                 <div className="dim mono" style={{fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em"}}>days</div>
-              </div>
+              </Ring>
             </div>
             <div className="row-gap-12 mt-24" style={{width: "100%"}}>
-              <div className="flex-between" style={{fontSize: 13}}><span className="muted">This week</span><span className="mono tnum" style={{fontWeight: 600}}>{points} pts</span></div>
+              <div className="flex-between" style={{fontSize: 13}}><span className="muted">This week</span><span className="mono tnum" style={{fontWeight: 600}}><CountUp value={points} /> pts</span></div>
               <div className="flex-between" style={{fontSize: 13}}><span className="muted">Rank in {fieldName}</span><span className="mono tnum" style={{fontWeight: 600}}>#2 / 40</span></div>
               <div className="flex-between" style={{fontSize: 13}}><span className="muted">Streak</span><span className="mono tnum" style={{fontWeight: 600}}>4 weeks {gamification === "heavy" && "🔥"}</span></div>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section className="path-peers">

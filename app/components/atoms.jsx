@@ -5,21 +5,17 @@ import { PV_DATA } from './data';
 const { useState, useEffect, useRef, useMemo, useCallback } = React;
 
 // --- Logo ---
+// Full lockup image (purple P mark + "Prompt University" wordmark).
+// Lives in /public and is loaded via the GitHub Pages basePath.
+const LOGO_SRC = (process.env.NODE_ENV === 'production' ? '/Code-Design-Hackathon' : '') + '/promptu-lockup.jpeg';
 function PVLogo({ size = 28 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="brand-mark">
-      <rect x="3" y="3" width="26" height="26" rx="6" fill="var(--brand)" />
-      <rect x="3" y="3" width="26" height="26" rx="6" fill="url(#pv-grad)" opacity="0.35" />
-      <circle cx="16" cy="16" r="6.5" stroke="var(--accent)" strokeWidth="1.6" fill="none" />
-      <circle cx="16" cy="16" r="2" fill="var(--accent)" />
-      <line x1="16" y1="9.5" x2="16" y2="6.5" stroke="var(--accent)" strokeWidth="1.6" strokeLinecap="round" />
-      <defs>
-        <radialGradient id="pv-grad" cx="0.7" cy="0.3" r="0.8">
-          <stop offset="0" stopColor="white" stopOpacity="0.4" />
-          <stop offset="1" stopColor="white" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-    </svg>
+    <img
+      src={LOGO_SRC}
+      alt="Prompt University"
+      className="brand-mark brand-lockup"
+      style={{ height: size, width: 'auto' }}
+    />
   );
 }
 
@@ -132,8 +128,8 @@ function TopNav({ route, goto, points, pillFlash, onProfile, profile, gamificati
           onClick={() => goto("home")}
           onKeyDown={keyActivate(() => goto("home"))}
         >
-          <PVLogo size={26} />
-          <span className="brand-name"><b>Prompt</b>University</span>
+          <PVLogo size={30} />
+          <span className="brand-name sr-only">Prompt University</span>
         </div>
         <div className="nav-links" role="list">
           {items.map(it => {

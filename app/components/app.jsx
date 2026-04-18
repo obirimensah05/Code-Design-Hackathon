@@ -10,6 +10,7 @@ import { VideoPage } from './video';
 import { LangdockPanel } from './langdock';
 import { Leaderboard } from './leaderboard';
 import { Tweaks } from './tweaks';
+import { ScrollBar } from './motion-fx';
 import {
   Tabs, TabsList, TabsTrigger, TabsContent,
   AvatarUploader, ActivityTimeline,
@@ -191,6 +192,7 @@ function App() {
 
   const content = (
     <div className="app">
+      <ScrollBar />
       <TopNav route={route} goto={goto} points={points} pillFlash={pillFlash} profile={activeProfile} onProfile={() => goto("profile")} gamification={tweaks.gamification} />
       {page}
       <ToastStack toasts={toasts} />

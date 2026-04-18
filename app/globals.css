@@ -2577,3 +2577,152 @@ img.avatar-xl { object-fit: cover; }
 /* Browse hero Find-your-next h1 should have breathing below */
 .route > .shell > .hero h1 + .mono,
 .route > .shell > .hero h1 + p { margin-top: 16px; }
+
+/* =====================================================================
+   DEFINITIVE heading + subtitle spacing (PC + mobile)
+   ===================================================================== */
+
+/* Universal "heading has breathing room below it" — belt, suspenders, duct tape.
+   Every h1/h2/h3 gets a baseline bottom margin. Works regardless of whether
+   the parent is flex-gap, block flow, or grid. */
+h1 { margin-top: 0; margin-bottom: 16px; }
+h2 { margin-top: 0; margin-bottom: 12px; }
+h3 { margin-top: 0; margin-bottom: 10px; }
+
+/* Heading-class overrides keep the size tokens but force the gap */
+.h-display { margin-top: 0; margin-bottom: 20px; line-height: 1.08; }
+.h-1       { margin-top: 0; margin-bottom: 16px; line-height: 1.2; }
+.h-2       { margin-top: 0; margin-bottom: 12px; line-height: 1.25; }
+.h-3       { margin-top: 0; margin-bottom: 10px; line-height: 1.3; }
+
+/* Paragraphs / small "muted" / "dim" text that directly follow a heading
+   should start from zero top, rely on the heading's bottom margin. */
+.h-display + p, .h-display + div,
+.h-1 + p, .h-1 + div,
+.h-2 + p, .h-2 + div,
+.h-3 + p, .h-3 + div,
+h1 + p, h1 + div,
+h2 + p, h2 + div,
+h3 + p, h3 + div {
+  margin-top: 0;
+}
+
+/* Section-head specific — "200+ videos. Find your next." etc. */
+.hero h1 { margin-bottom: 18px; line-height: 1.05; }
+.hero h1 + p, .hero h1 + .lead { margin-top: 0; font-size: 16px; line-height: 1.55; }
+
+/* Shelf + tool hero titles + card titles */
+.shelf-head h2 { margin-bottom: 12px !important; }
+.shelf-head h2 + div { margin-top: 0; }
+.tool-hero h1 { margin-bottom: 18px; }
+.pv-card--padded h2.h-2 { margin-bottom: 6px; }
+.pv-card--padded h2.h-2 + p { margin-top: 0; margin-bottom: 16px; line-height: 1.5; }
+
+/* Mobile: headings shrink + gap grows proportionally */
+@media (max-width: 720px) {
+  .h-display { font-size: clamp(1.75rem, 8vw, 2.5rem); margin-bottom: 16px; }
+  .h-1       { font-size: clamp(1.375rem, 6.2vw, 1.75rem); margin-bottom: 14px; }
+  .h-2       { font-size: clamp(1.125rem, 5vw, 1.375rem); margin-bottom: 10px; }
+  .hero h1 { font-size: clamp(1.75rem, 8vw, 2.25rem); line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 + p, .hero h1 + .lead { font-size: 15px; }
+  .eyebrow { margin-bottom: 10px; }
+}
+
+@media (max-width: 480px) {
+  .h-display { margin-bottom: 14px; }
+  .h-1       { margin-bottom: 12px; }
+  .h-2       { margin-bottom: 8px; }
+  .hero { padding: 20px 0 !important; }
+}
+
+/* =====================================================================
+   Tweaks panel — mobile-small + draggable cursor states
+   ===================================================================== */
+.tweaks-panel { transition: box-shadow var(--t-fast) var(--ease); }
+.tweaks-panel .tweaks-head { cursor: grab; user-select: none; }
+.tweaks-panel.is-dragging { transition: none; box-shadow: 0 24px 48px -12px rgba(15,17,21,0.25), 0 4px 12px rgba(15,17,21,0.1); }
+.tweaks-panel.is-dragging .tweaks-head { cursor: grabbing; }
+
+.tweaks-bubble { cursor: grab; user-select: none; touch-action: none; }
+.tweaks-bubble.is-dragging { cursor: grabbing; transform: scale(1.02); }
+
+/* Mobile: tweaks are compact by default + smaller type */
+@media (max-width: 720px) {
+  .tweaks-panel {
+    width: 260px;
+    max-width: calc(100vw - 24px);
+    font-size: 12px;
+  }
+  .tweaks-panel .tweaks-head { padding: 10px 12px; }
+  .tweaks-panel .tweaks-head b { font-size: 11px; }
+  .tweaks-panel .tweaks-body { padding: 12px; gap: 12px; }
+  .tweaks-panel .seg button { padding: 5px 6px; font-size: 11px; }
+  .tweaks-panel .row > label { font-size: 10.5px; }
+  .swatch { width: 22px; height: 22px; }
+
+  .tweaks-bubble {
+    bottom: 14px; right: 14px;
+    padding: 8px 12px 8px 10px;
+    font-size: 10.5px;
+  }
+  .tweaks-bubble-dot { width: 6px; height: 6px; }
+}
+
+@media (max-width: 480px) {
+  .tweaks-panel { width: 240px; }
+  .tweaks-bubble-label { display: none; }
+  .tweaks-bubble { padding: 8px; }
+  .tweaks-bubble-dot { width: 10px; height: 10px; }
+}
+
+/* Bubble base tweak — label element exists in JSX */
+.tweaks-bubble-label { display: inline; }
+
+/* Prevent touch-scroll while dragging */
+.tweaks-panel.is-dragging,
+.tweaks-bubble.is-dragging { touch-action: none; }
+
+/* =====================================================================
+   Motion helpers — initial hidden states prevent flash-of-unstyled
+   content before motion kicks in.
+   ===================================================================== */
+.mfx-reveal, .mfx-stagger > * { backface-visibility: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .mfx-reveal, .mfx-stagger > * { opacity: 1 !important; transform: none !important; }
+}
+
+/* Top-of-page scroll progress bar */
+.mfx-scrollbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent-deep, #8a1ed4);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: 90;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* =====================================================================
+   Brand lockup (image-based PVLogo)
+   ===================================================================== */
+.brand-lockup {
+  display: block;
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 480px) {
+  .brand-lockup { height: 26px; }
+}
