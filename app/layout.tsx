@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PromptVault — Master AI tools",
+  title: "Prompt University — Master AI tools",
   description: "Peer-to-peer learning platform for AI tools. Learn from experts. Your vault of AI knowledge.",
 };
 

@@ -127,7 +127,7 @@ function Onboarding({ onDone }) {
       <div className="onboard-side">
         <div className="brand">
           <PVLogo size={32} />
-          <span className="brand-name" style={{fontSize: 18}}><b>Prompt</b>Vault</span>
+          <span className="brand-name" style={{fontSize: 18}}><b>Prompt</b>University</span>
         </div>
         <div style={{position: "relative", zIndex: 1}}>
           <div className="eyebrow mb-16">Your vault, in 5 questions</div>

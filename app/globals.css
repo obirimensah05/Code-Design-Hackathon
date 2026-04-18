@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ---------- PromptVault tokens ---------- */
+/* ---------- Prompt University tokens ---------- */
 :root {
   /* light theme defaults — overwritten by JS based on tweaks */
   --bg: #F8F9FA;

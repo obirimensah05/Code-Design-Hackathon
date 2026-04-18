@@ -123,7 +123,7 @@ function TopNav({ route, goto, points, pillFlash, onProfile, profile, gamificati
       <div className="shell topnav-inner">
         <div className="brand" onClick={() => goto("home")}>
           <PVLogo size={26} />
-          <span className="brand-name"><b>Prompt</b>Vault</span>
+          <span className="brand-name"><b>Prompt</b>University</span>
         </div>
         <div className="nav-links">
           {items.map(it => (
