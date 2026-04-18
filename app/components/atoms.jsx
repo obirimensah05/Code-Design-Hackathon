@@ -174,7 +174,9 @@ function TopNav({ route, goto, points, pillFlash, onProfile, profile, gamificati
             onClick={onProfile}
             onKeyDown={keyActivate(onProfile)}
           >
-            {profile?.initials || "JR"}
+            {profile?.avatarDataUrl
+              ? <img src={profile.avatarDataUrl} alt="" />
+              : (profile?.initials || "JR")}
           </div>
         </div>
       </div>

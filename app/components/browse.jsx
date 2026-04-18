@@ -2,6 +2,7 @@
 import React from 'react';
 import { PV_DATA } from './data';
 import { Icon, VideoCard } from './atoms';
+import { EmptyState } from './ui';
 
 const { useState: useStateB, useMemo: useMemoB } = React;
 
@@ -74,8 +75,17 @@ function Browse({ onWatch, goto, profile }) {
           {filtered.map(v => <VideoCard key={v.id} video={v} onClick={onWatch} />)}
         </div>
         {filtered.length === 0 && (
-          <div className="card" style={{padding: 48, textAlign: "center", color: "var(--fg-3)"}}>
-            Nothing matches those filters — try removing one to see more.
+          <div className="pv-card">
+            <EmptyState
+              icon={<Icon.filter size={22} />}
+              title="Nothing matches those filters"
+              description="Try removing one — or browse everything from the top."
+              action={
+                <button className="btn btn-secondary" onClick={() => { setTool("all"); setLevel("all"); setField("all"); setQ(""); }}>
+                  Clear all filters
+                </button>
+              }
+            />
           </div>
         )}
         <div style={{height: 96}} />

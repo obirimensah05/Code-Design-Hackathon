@@ -2,6 +2,7 @@
 import React from 'react';
 import { PV_DATA } from './data';
 import { PVLogo, Icon } from './atoms';
+import { Stepper, StepperItem, StepperIndicator, StepperSeparator } from './ui';
 
 const { useState: useStateO } = React;
 
@@ -149,11 +150,19 @@ function Onboarding({ onDone }) {
       </div>
 
       <div className="onboard-form">
-        <div className="step-bar">
-          {Array.from({length: total}).map((_, i) => (
-            <span key={i} className={i < step ? "done" : i === step ? "active" : ""} />
-          ))}
-        </div>
+        <Stepper orientation="horizontal" aria-label={`Onboarding step ${step + 1} of ${total}`}>
+          {Array.from({length: total}).map((_, i) => {
+            const status = i < step ? "completed" : i === step ? "current" : "pending";
+            return (
+              <React.Fragment key={i}>
+                <StepperItem status={status} step={i + 1}>
+                  <StepperIndicator />
+                </StepperItem>
+                {i < total - 1 && <StepperSeparator />}
+              </React.Fragment>
+            );
+          })}
+        </Stepper>
         <div className="row-gap-12">
           <div className="eyebrow">Step {step + 1} of {total}</div>
           <h1 className="h-1" style={{fontSize: 36}}>{cur.title}</h1>
