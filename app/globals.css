@@ -3282,3 +3282,16 @@ h3, .h-3       { font-size: clamp(1rem, 0.95rem + 0.6vw, 1.2rem); }
 /* Hide the persistent site footer inside the mobile preview frame —
    the frame scrolls its own content and already has a tab bar. */
 .mobile-stage .site-footer { display: none; }
+
+/* Footer: group the two LinkedIn icons on the right */
+.site-footer__icons {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.site-footer__icons .site-footer__li { margin-left: 0; }
+
+@media (max-width: 560px) {
+  .site-footer__icons { margin-left: auto; gap: 0.4em; }
+}

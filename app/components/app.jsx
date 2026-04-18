@@ -750,18 +750,47 @@ function SiteFooter() {
             </svg>
           </a>
         </span>
-        <a
-          className="site-footer__li"
-          href="https://www.linkedin.com/in/obiri-mensah-66092a182/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Obiri Mensah on LinkedIn"
-          title="Obiri Mensah on LinkedIn"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5.001zM3 9h4v12H3V9zm7 0h3.8v1.7h.1c.5-.9 1.8-1.9 3.7-1.9 4 0 4.7 2.6 4.7 6V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4V9z" />
-          </svg>
-        </a>
+        <span className="site-footer__sep" aria-hidden>·</span>
+        <span className="site-footer__by">
+          Design by{" "}
+          <a
+            className="site-footer__link"
+            href="https://www.linkedin.com/in/adnan-merchant-98428a292"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Adnan Merchant
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
+            </svg>
+          </a>
+        </span>
+        <div className="site-footer__icons">
+          <a
+            className="site-footer__li"
+            href="https://www.linkedin.com/in/obiri-mensah-66092a182/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Obiri Mensah on LinkedIn"
+            title="Obiri Mensah on LinkedIn"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5.001zM3 9h4v12H3V9zm7 0h3.8v1.7h.1c.5-.9 1.8-1.9 3.7-1.9 4 0 4.7 2.6 4.7 6V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4V9z" />
+            </svg>
+          </a>
+          <a
+            className="site-footer__li"
+            href="https://www.linkedin.com/in/adnan-merchant-98428a292"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Adnan Merchant on LinkedIn"
+            title="Adnan Merchant on LinkedIn"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5.001zM3 9h4v12H3V9zm7 0h3.8v1.7h.1c.5-.9 1.8-1.9 3.7-1.9 4 0 4.7 2.6 4.7 6V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4V9z" />
+            </svg>
+          </a>
+        </div>
       </div>
     </footer>
   );
